@@ -1,4 +1,5 @@
 import FileUpload from "../components/FileUpload";
+import contract from "../smartcontract/Certificate";
 
 
 export default function Home() {
@@ -9,3 +10,14 @@ export default function Home() {
     </div>
   );
 }
+
+
+// export async function getServerSideProps() {
+//   const certificates = await contract.methods.getApproved().call();
+
+//   console.log("casd" + ( await contract.methods.getApproved().call()));
+
+//   return {
+//     props: { certificates },
+//   };
+// }

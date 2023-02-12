@@ -1,22 +1,22 @@
-import abi from "./contract_abi.json";
+// import abi from "./contract_abi.json";
 
-const { ethers } = require("ethers");
+// const Web3 = require('web3');
 
-// Connect to blockchain
-const provider = new ethers.providers.Web3Provider(window.ethereum);
+// // Connect to a user's metamask
+// const web3 = new Web3(Web3.givenProvider);
 
-// Contract ABI (Copy from the Bunzz Interface)
-const contractABI = abi;
+// // Contract ABI (Copy from the Bunzz Interface)
+// const contractABI = abi;
 
-// Contract address (Copy from the Bunzz Interface)
-const contractAddress = "0x8f9c63b1abF719b644367492131D3e06bCA2D756";
+// // Contract address (Copy from the Bunzz Interface)
+// const contractAddress = '0x...';
 
-// Create contract instance
-const contract = new ethers.Contract(contractAddress, contractABI, provider);
+// // Create a contract instance
+// const contract = new web3.eth.Contract(contractABI, contractAddress);
 
-// Call a read function
-const value = await contract.getValue();
+// // Call a constant function of the smart contract
+// const value = await contract.methods.getValue().call();
 
-// Call a write function
-const signer = await provider.getSigner();
-await contract.connect(signer).setValue(5);
+// // send a transaction to the smart contract
+// // await contract.methods.setValue(5).send({from: web3.eth.defaultAccount});
+
