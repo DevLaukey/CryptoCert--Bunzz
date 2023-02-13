@@ -1,4 +1,5 @@
 import FileUpload from "../components/FileUpload";
+import UploadForm from "../components/UploadForm";
 import contract from "../smartcontract/Certificate";
 
 
@@ -7,6 +8,7 @@ export default function Home() {
     <div className="container py-10 px-10 mx-0 min-w-full flex flex-col items-center">
       {/* Intro and instructions of the application // File drop */}
       {/* <FileUpload /> */}
+      <UploadForm/>
 
       The data must first be prepared: ie the Certificate images created and stored on IPFS and metadata of the data stord in tabular form 
 
