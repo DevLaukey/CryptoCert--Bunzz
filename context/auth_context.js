@@ -19,11 +19,8 @@ const AuthProvider = ({ children }) => {
     };
 
     // checks if the user is authenticated or not
-    const isUserAuthenticated = () => {
-        if (!authState.token) {
-            return false;
-        }
-    };
+    const isUserAuthenticated = () => !!authState.token;
+
 
     return (
         <Provider

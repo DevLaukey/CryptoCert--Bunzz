@@ -1,13 +1,18 @@
 
 import Web3  from "web3";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import CardGrid from "../components/CardGrid";
+import { useRouter } from "next/router";
+import { AuthContext } from "../context/auth_context";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
 
 export default function Home() {
+  const router = useRouter();
+  const authContext = useContext(AuthContext);
+
   const [web3, setWeb3] = useState(null)
   const [address, setAddress] = useState(null)
   const [contract, setContract] = useState(null)
@@ -288,6 +293,13 @@ export default function Home() {
 ;
   let contractAddress = "0x8f9c63b1abF719b644367492131D3e06bCA2D756"           
 
+  let metadataURI = "https://ibb.co/891bB98"
+  // useEffect(() => {
+  //   // checks if the user is authenticated
+  //   authContext.isUserAuthenticated()
+  //     ? router.push("/uploadForm")
+  //     : router.push("/");
+  // }, []);
 
   useEffect(() => {
     window.ethereum ?
@@ -301,6 +313,42 @@ export default function Home() {
       : console.log("Please install MetaMask")
   }, [])
 
+  useEffect(() => { 
+    if (web3 && contract) {
+      contract.methods.totalSupply().call().then((certificates) => {
+        console.log(certificates)
+        contract.methods.safeMint("0x4c371D2626ab14f99e9591747568c9277ceb86Ba", metadataURI).send().then((certificates) => {
+            console.log(certificates)
+          }).catch((err) => console.log(err))
+        
+      }).catch((err) => console.log(err))
+    }
+
+
+  },[])
+
+
+  function mint() {
+    let _price = web3.utils.toWei("1");
+    let encoded = contract.methods.safeMint("0x4c371D2626ab14f99e9591747568c9277ceb86Ba",metadataURI).encodeABI()
+
+    let tx = {
+      from: address,
+      to: contractAddress,
+      data: encoded,
+      nonce: "0x00",
+      value: web3.utils.numberToHex(_price)
+    }
+
+    let txHash = ethereum.request({
+      method: 'eth_sendTransaction',
+      params: [tx],
+    }).then((hash) => {
+      alert("You can now view your transaction with hash: " + hash)
+    }).catch((err) => console.log(err))
+
+    return txHash
+  }
   return (
     <div>
       <Navbar />
@@ -319,3 +367,5 @@ export default function Home() {
 //     props: { certificates },
 //   };
 // }
+
+

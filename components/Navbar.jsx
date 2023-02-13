@@ -3,7 +3,7 @@ import React from "react";
 const Navbar = () => {
   return (
     <nav className="bg-white  sticky border-gray-400 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900 mt-7">
-      <div className="container flex  items-center justify-around mx-auto flex-wrap md:flex-nowrap">
+      <div className="container flex flex-col  items-center justify-around mx-auto flex-wrap md:flex-nowrap">
         <a href="https://flowbite.com/" className="flex items-center m-2">
           <img
             src="https://flowbite.com/docs/images/logo.svg"
@@ -14,7 +14,7 @@ const Navbar = () => {
             CRYTPOCERT{" "}
           </span>
         </a>
-       
+
         <form className="w-3/4">
           <label
             for="default-search"
@@ -44,7 +44,7 @@ const Navbar = () => {
               type="search"
               id="default-search"
               className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-              placeholder="Search Mockups, Logos..."
+              placeholder="Search for a certificate"
               required
             />
             <button
@@ -55,6 +55,9 @@ const Navbar = () => {
             </button>
           </div>
         </form>
+      <h2 className=" mt-2 text-gray-800 dark:text-gray-200">
+        Welcome Address: 0x121221
+      </h2>
       </div>
     </nav>
   );
