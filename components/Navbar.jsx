@@ -2,7 +2,7 @@ import React from "react";
 
 const Navbar = () => {
   return (
-    <nav className="bg-white border-gray-400 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900 mt-7">
+    <nav className="bg-white  sticky border-gray-400 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900 mt-7">
       <div className="container flex  items-center justify-around mx-auto flex-wrap md:flex-nowrap">
         <a href="https://flowbite.com/" className="flex items-center m-2">
           <img

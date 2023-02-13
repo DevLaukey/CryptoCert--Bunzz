@@ -1,6 +1,4 @@
-import FileUpload from "../components/FileUpload";
-import UploadForm from "../components/UploadForm";
-import contract from "../smartcontract/Certificate";
+
 import Web3  from "web3";
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
@@ -303,7 +301,6 @@ export default function Home() {
       : console.log("Please install MetaMask")
   }, [])
 
-  console.log(contract), console.log(web3), console.log(address);
   return (
     <div>
       <Navbar />
