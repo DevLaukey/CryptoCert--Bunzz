@@ -21,6 +21,32 @@ const FileUpload = () => {
     setFile(files.filter((x) => x.name !== i));
   };
 
+  async function mintNFT(tokenURI) {
+    const nonce = await web3.eth.getTransactionCount(PUBLIC_KEY, "latest"); //get latest nonce
+
+    //the transaction
+    const tx = {
+      from: PUBLIC_KEY,
+      to: contractAddress,
+      nonce: nonce,
+      gas: 500000,
+      maxPriorityFeePerGas: 1999999987,
+      data: nftContract.methods.mintNFT(PUBLIC_KEY, tokenURI).encodeABI(),
+    };
+
+    //step 4: Sign the transaction
+    const signedTx = await web3.eth.accounts.signTransaction(tx, PRIVATE_KEY);
+    const transactionReceipt = await web3.eth.sendSignedTransaction(
+      signedTx.rawTransaction
+    );
+
+    console.log(`Transaction receipt: ${JSON.stringify(transactionReceipt)}`);
+
+  }
+mintNFT(
+  "https://gateway.pinata.cloud/ipfs/Qmeou5f7ttU98n96mYWfYzKHV7pfRe5rcZBhYznHZCUV7M"
+);
+
   console.log(files);
   return (
     <>
