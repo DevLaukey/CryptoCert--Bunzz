@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const FileUpload = () => {
+const FileUpload = ({address}) => {
   const [files, setFile] = useState([]);
   const [message, setMessage] = useState();
   const handleFile = (e) => {
@@ -21,31 +21,46 @@ const FileUpload = () => {
     setFile(files.filter((x) => x.name !== i));
   };
 
-  async function mintNFT(tokenURI) {
-    const nonce = await web3.eth.getTransactionCount(PUBLIC_KEY, "latest"); //get latest nonce
 
-    //the transaction
-    const tx = {
-      from: PUBLIC_KEY,
-      to: contractAddress,
-      nonce: nonce,
-      gas: 500000,
-      maxPriorityFeePerGas: 1999999987,
-      data: nftContract.methods.mintNFT(PUBLIC_KEY, tokenURI).encodeABI(),
-    };
+  
+  // try {
+  //   const response = await axios.post(
+  //     "https://api.pinata.cloud/pinning/pinFileToIPFS",
+  //     file,
+  //     {
+  //       headers: {
+  //         pinata_api_key: process.env.NEXT_PUBLIC_PINATA_API_KEY,
+  //         pinata_secret_api_key: process.env.NEXT_PUBLIC_PINATA_SECRET_API_KEY,
+  //       },
+  //     }
+  //   );
+  //   console.log(response);
+  // }
+//   async function mintNFT(tokenURI) {
+//     const nonce = await web3.eth.getTransactionCount(PUBLIC_KEY, "latest"); //get latest nonce
 
-    //step 4: Sign the transaction
-    const signedTx = await web3.eth.accounts.signTransaction(tx, PRIVATE_KEY);
-    const transactionReceipt = await web3.eth.sendSignedTransaction(
-      signedTx.rawTransaction
-    );
+//     //the transaction
+//     const tx = {
+//       from: PUBLIC_KEY,
+//       to: contractAddress,
+//       nonce: nonce,
+//       gas: 500000,
+//       maxPriorityFeePerGas: 1999999987,
+//       data: nftContract.methods.mintNFT(PUBLIC_KEY, tokenURI).encodeABI(),
+//     };
 
-    console.log(`Transaction receipt: ${JSON.stringify(transactionReceipt)}`);
+//     //step 4: Sign the transaction
+//     const signedTx = await web3.eth.accounts.signTransaction(tx, PRIVATE_KEY);
+//     const transactionReceipt = await web3.eth.sendSignedTransaction(
+//       signedTx.rawTransaction
+//     );
 
-  }
-mintNFT(
-  "https://gateway.pinata.cloud/ipfs/Qmeou5f7ttU98n96mYWfYzKHV7pfRe5rcZBhYznHZCUV7M"
-);
+//     console.log(`Transaction receipt: ${JSON.stringify(transactionReceipt)}`);
+
+//   }
+// mintNFT(
+//   "https://gateway.pinata.cloud/ipfs/Qmeou5f7ttU98n96mYWfYzKHV7pfRe5rcZBhYznHZCUV7M"
+// );
 
   console.log(files);
   return (
