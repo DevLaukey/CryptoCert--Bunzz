@@ -1,6 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
+import certContext from "../context/cert_context";
 
 const Navbar = () => {
+  const [loggedIn, setLoggedIn] = React.useState(false);
+
+  const address = useContext(certContext).address;
+
+  React.useEffect(() => { 
+    if (address !== "") {
+      setLoggedIn(true);
+    }
+  },[address]);
   return (
     <nav className="bg-white  sticky border-gray-400 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900 mt-7">
       <div className="container flex flex-col  items-center justify-around mx-auto flex-wrap md:flex-nowrap">
@@ -55,9 +65,19 @@ const Navbar = () => {
             </button>
           </div>
         </form>
-      <h2 className=" mt-2 text-gray-800 dark:text-gray-200">
-        Welcome Address: 0x121221
-      </h2>
+          {
+            loggedIn ? (
+            <h2 className=" mt-2 text-blue-500 dark:text-gray-200 ">
+              Wallet Address:{address}
+            </h2>
+            
+          ) : (
+              <h2 h2 className=" mt-2 text-red-800 dark:text-gray-200">
+                Kindly Link your Wallet
+             </h2>
+            )
+          }
+      
       </div>
     </nav>
   );

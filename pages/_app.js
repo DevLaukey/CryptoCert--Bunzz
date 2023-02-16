@@ -2,7 +2,7 @@ import '../styles/globals.css'
 import Web3 from "web3";
 import abi from "../smartcontract/contract_abi.json"
 import certContext from '../context/cert_context'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 function MyApp({ Component, pageProps }) {
   const [address, setAddress] = useState(null)
@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps }) {
       }).catch((err) => console.log(err))
       : console.log("Please install MetaMask")
   }, [])
-  return (<certContext.Provider value={{ address, contract }}>
+  return (<certContext.Provider value={{ address, contract, web3 }}>
     <Component {...pageProps} />
   </certContext.Provider>)
 }
