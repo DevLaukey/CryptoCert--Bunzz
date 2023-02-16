@@ -3,6 +3,7 @@ import Web3 from "web3";
 import { useContext, useEffect, useState } from "react";
 import certContext from "../context/cert_context";
 import { supabase } from "../context/supabaseClient";
+import Auth from "./Auth";
 
 const UploadForm = () => {
   const [metadataURI, setMetadataURI] = useState("");
@@ -101,7 +102,7 @@ const UploadForm = () => {
           </section>
         </div>
       ) : (
-        <h1>HELLO</h1>
+        <Auth/>
       )}
     </>
   );
