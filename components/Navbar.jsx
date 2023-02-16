@@ -7,8 +7,9 @@ const Navbar = () => {
   const address = useContext(certContext).address;
 
   React.useEffect(() => { 
-    if (address !== "") {
+    if (address !== null) {
       setLoggedIn(true);
+      console.log(address);
     }
   },[address]);
   return (

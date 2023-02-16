@@ -3,6 +3,8 @@ import json
 filename = 'data.csv'
 
 students = []
+
+
 def cleanData(filename):
     # open the file
     students = []
@@ -25,3 +27,16 @@ def cleanData(filename):
 students = cleanData(filename)
 Student_json = json.dumps(students)
 
+
+images = [
+    {"https://gateway.pinata.cloud/ipfs/QmZKvtY8eJcm1QVAzFQTBGQrRdCZ3jJRrRpKmd87cVY7wC/"},
+    {"https://gateway.pinata.cloud/ipfs/QmZKvtY8eJcm1QVAzFQTBGQrRdCZ3jJRrRpKmd87cVY7wC/"},
+    {"https://gateway.pinata.cloud/ipfs/QmZKvtY8eJcm1QVAzFQTBGQrRdCZ3jJRrRpKmd87cVY7wC/"}
+]
+
+def mapper(images, student):
+    
+    return student
+
+
+print(mapper(images, Student_json))
