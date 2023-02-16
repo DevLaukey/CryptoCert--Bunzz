@@ -28,6 +28,7 @@ export default function Home() {
                   })
               });
             certCount = count + 1;
+            console.log(certCount);
           }
         })
         .catch((err) => console.log(err.message));

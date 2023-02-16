@@ -34,9 +34,13 @@ images = [
     {"https://gateway.pinata.cloud/ipfs/QmZKvtY8eJcm1QVAzFQTBGQrRdCZ3jJRrRpKmd87cVY7wC/"}
 ]
 
-def mapper(images, student):
-    
-    return student
+
+def mapper(images, Student_json):
+    sj = json.loads(Student_json)
+    for (i, t) in enumerate(sj):
+        t['image-url'] = images[i]
+
+    return sj
 
 
 print(mapper(images, Student_json))

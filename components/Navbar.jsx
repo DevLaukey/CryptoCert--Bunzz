@@ -9,7 +9,6 @@ const Navbar = () => {
   React.useEffect(() => { 
     if (address !== null) {
       setLoggedIn(true);
-      console.log(address);
     }
   },[address]);
   return (
