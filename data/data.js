@@ -1,0 +1,55 @@
+const fs = require('fs');
+const csv = require('csv-parser');
+
+const filename = 'data.csv';
+
+let students = [];
+
+function cleanData(filename) {
+    let cleaned_data = [];
+
+    return new Promise((resolve, reject) => {
+        fs.createReadStream(filename)
+            .pipe(csv())
+            .on('data', (data) => {
+                students.push(data);
+            })
+            .on('end', () => {
+                for (let i = 0; i < students.length; i++) {
+                    delete students[i][''];
+                    if (Object.values(students[i]).every(val => val !== '')) {
+                        cleaned_data.push(students[i]);
+                    }
+                }
+                resolve(cleaned_data);
+            })
+            .on('error', (error) => {
+                reject(error);
+            });
+    });
+}
+
+cleanData(filename)
+    .then((students) => {
+        const student_json = JSON.stringify(students);
+
+        const images = [
+            { "url": "https://gateway.pinata.cloud/ipfs/QmZKvtY8eJcm1QVAzFQTBGQrRdCZ3jJRrRpKmd87cVY7wC/" },
+            { "url": "https://gateway.pinata.cloud/ipfs/QmZKvtY8eJcm1QVAzFQTBGQrRdCZ3jJRrRpKmd87cVY7wC/" },
+            { "url": "https://gateway.pinata.cloud/ipfs/QmZKvtY8eJcm1QVAzFQTBGQrRdCZ3jJRrRpKmd87cVY7wC/" }
+        ];
+
+        function mapper(images, student_json) {
+            let sj = JSON.parse(student_json);
+            for (let i = 0; i < sj.length; i++) {
+                sj[i]['image-url'] = images[i].url;
+            }
+
+            return sj;
+        }
+
+        console.log(mapper(images, student_json));
+    })
+    .catch((error) => {
+        console.error(error);
+    });

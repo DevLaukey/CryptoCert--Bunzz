@@ -3,6 +3,7 @@ import { supabase } from '../context/supabaseClient'
 import { toast, ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import { Router } from 'next/router';
 
 export default function Auth() {
     const [loading, setLoading] = useState(false)
@@ -14,7 +15,7 @@ export default function Auth() {
 
         try {
             setLoading(true)
-            let { data, error } = await supabase.auth.signUp({
+            let { data, error } = await supabase.auth.signInWithPassword({
                 email: email,
                 password: password
             })
@@ -25,7 +26,9 @@ export default function Auth() {
                 });
             }
         } catch (error) {
-            alert(error.error_description || error.message)
+            toast.error(error.error_description || error.message, {
+                position: toast.POSITION.TOP_CENTER,
+            });
         } finally {
             setLoading(false)
         }
