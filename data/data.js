@@ -4,6 +4,14 @@ const csv = require('csv-parser');
 const filename = 'data.csv';
 
 let students = [];
+const Moralis = require("moralis").default;
+
+async function uploadToIpfs() {
+
+    await Moralis.start({
+        apiKey: "d6T5dpnyTp3esuqPDHOwtUopWTnyUuWjrJqalQVU8iUBxUpc1LlknselhwB99FSu",
+    });
+}
 
 function cleanData(filename) {
     let cleaned_data = [];

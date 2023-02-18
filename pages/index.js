@@ -7,16 +7,16 @@ export default function Home() {
   const web3 = useContext(certContext).web3;
   const contract = useContext(certContext).contract;
   const address = useContext(certContext).address;
-  const [certificates, setCertificates] = useState("");
+  const [certificates, setCertificates] = useState([]);
 
   useEffect(() => {
     if (web3 && contract) {
-      let certCount = 0, i;
+      let certCount = 0;
       contract.methods
         .totalSupply()
         .call()
         .then((count) => {
-          for (i in count) {
+          for (let i = 0; i < count; i++) {
             contract.methods
               .tokenByIndex(certCount)
               .call()
@@ -24,10 +24,11 @@ export default function Home() {
                 contract.methods
                   .tokenURI(token)
                   .call().then((tokenURI) => {
-                    setCertificates(tokenURI);
+                    console.log(tokenURI);
                   })
               });
-            certCount = count + 1;
+            
+            certCount +=1;
             console.log(certCount);
           }
         })
