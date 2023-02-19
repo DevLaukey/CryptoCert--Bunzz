@@ -8,35 +8,45 @@ export default function Home() {
   const contract = useContext(certContext).contract;
   const address = useContext(certContext).address;
   const [certificates, setCertificates] = useState([]);
+  const [uri, setURI] = useState([]);
 
   useEffect(() => {
     if (web3 && contract) {
-      let certCount = 0;
       contract.methods
         .totalSupply()
         .call()
         .then((count) => {
-          for (let i = 0; i < count; i++) {
-            contract.methods
-              .tokenByIndex(certCount)
-              .call()
-              .then((token) => {
-                contract.methods
-                  .tokenURI(token)
-                  .call().then((tokenURI) => {
-                    console.log(tokenURI);
-                  })
-              });
-            
-            certCount +=1;
-            console.log(certCount);
-          }
+         getCertificates(count);
         })
         .catch((err) => console.log(err.message));
     }
+    else {
+      console.log("web3 or contract not found");
+    }
   }, []);
 
-  console.log(certificates);
+  function getCertificates(count) {
+    for (let i = 1; i <= count; i++) {
+      contract.methods
+        .tokenByIndex(i)
+        .call()
+        .then((token) => {
+          contract.methods
+            .tokenURI(token)
+            .call().then((data) => {
+              console.log(data);
+              setURI((prev) => [...prev, data]);
+            })
+        }).catch((err) => console.log(err.message));
+
+      console.log(uri);
+    }
+  }
+
+
+
+
+  // console.log(certificates);
   return (
     <div>
       <Navbar />

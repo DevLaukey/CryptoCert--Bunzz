@@ -4,6 +4,9 @@ import { useContext, useEffect, useState } from "react";
 import certContext from "../context/cert_context";
 import { supabase } from "../context/supabaseClient";
 import Auth from "../components/Auth";
+import { toast, ToastContainer } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 const UploadForm = () => {
   const [metadataURI, setMetadataURI] = useState("");
@@ -34,13 +37,19 @@ const UploadForm = () => {
       })
       .then((result) => {
         console.log(result);
-        setTargetAddress("");
-        setMetadataURI("");
+        
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setMetadataURI("");
+        setTargetAddress("");
+      
+      });
   }
   return (
     <>
+      <ToastContainer />
+
       {session ? (
         <div class="container my-24 px-6 mx-auto">
           <section class="mb-32 text-gray-800 text-center">
@@ -66,7 +75,7 @@ const UploadForm = () => {
                     type="text"
                     class="form-control block  w-full px-3  py-1.5  text-base font-normal text-gray-700 bg-white bg-clip-padding        border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                     id="exampleInput90"
-                    placeholder="Metadata URI"
+                    placeholder="Metadata Hash/URI/CID"
                     onChange={(e) => {
                       setMetadataURI(e.target.value);
                     }}
