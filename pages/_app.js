@@ -5,9 +5,9 @@ import certContext from '../context/cert_context'
 import { useEffect, useState } from 'react';
 
 function MyApp({ Component, pageProps }) {
-  const [address, setAddress] = useState(null)
-  const [contract, setContract] = useState(null)
-  const [web3, setWeb3] = useState(null)
+  const [address, setAddress] = useState("")
+  const [contract, setContract] = useState("")
+  const [web3, setWeb3] = useState("")
 
 
   useEffect(() => {

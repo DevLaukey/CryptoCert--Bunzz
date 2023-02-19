@@ -5,7 +5,6 @@ const Navbar = () => {
   const [loggedIn, setLoggedIn] = React.useState(false);
 
   const address = useContext(certContext).address;
-
   React.useEffect(() => { 
     if (address !== null) {
       setLoggedIn(true);

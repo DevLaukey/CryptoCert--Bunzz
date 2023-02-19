@@ -4,19 +4,19 @@ import CardGrid from "../components/CardGrid";
 import certContext from "../context/cert_context";
 
 export default function Home() {
+
+  // const [certificates, setCertificates] = useState([]);
   const web3 = useContext(certContext).web3;
   const contract = useContext(certContext).contract;
   const address = useContext(certContext).address;
-  const [certificates, setCertificates] = useState([]);
   const [uri, setURI] = useState([]);
-
-  useEffect(() => {
+  useEffect(() => { 
     if (web3 && contract) {
       contract.methods
         .totalSupply()
         .call()
         .then((count) => {
-         getCertificates(count);
+          getCertificates(count);
         })
         .catch((err) => console.log(err.message));
     }
@@ -38,10 +38,9 @@ export default function Home() {
               setURI((prev) => [...prev, data]);
             })
         }).catch((err) => console.log(err.message));
-
-      console.log(uri);
     }
   }
+
 
 
 
@@ -50,7 +49,13 @@ export default function Home() {
   return (
     <div>
       <Navbar />
-      <CardGrid />
+      <div class="container my-12 mx-auto px-4 md:px-12">
+        <div class="flex flex-wrap -mx-1 lg:-mx-4">
+          {uri.map((item) => { 
+
+      <CardGrid uri={item}/>
+          })}
+        </div></div>
     </div>
   );
 }
@@ -63,4 +68,36 @@ export default function Home() {
 //   return {
 //     props: { certificates },
 //   };
+// }
+
+// export async function getStaticProps() {
+//   // const web3 = useContext(certContext).web3;
+//   // const contract = useContext(certContext).contract;
+//   // const address = useContext(certContext).address;
+
+//   if (web3 && contract) {
+//     contract.methods
+//       .totalSupply()
+//       .call()
+//       .then((count) => {
+//         getCertificates(count);
+//       })
+//       .catch((err) => console.log(err.message));
+//   }
+//   else {
+//     console.log("web3 or contract not found");
+//   }
+
+//   // Call an external API endpoint to get posts
+//   const res = axios.get()
+//   const certificates = await res.json()
+
+
+//   return {
+//     props: {
+//       certificates,
+//     },
+//   }
+
+  
 // }
