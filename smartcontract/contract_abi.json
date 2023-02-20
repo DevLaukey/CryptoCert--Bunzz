@@ -4,8 +4,7 @@
     "name": null,
     "inputs": [
       { "internalType": "string", "name": "name", "type": "string" },
-      { "internalType": "string", "name": "symbol", "type": "string" },
-      { "internalType": "string", "name": "baseTokenURI", "type": "string" }
+      { "internalType": "string", "name": "symbol", "type": "string" }
     ],
     "outputs": [],
     "type": "constructor",
@@ -78,16 +77,6 @@
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "type": "function",
     "stateMutability": "view"
-  },
-  {
-    "anonymous": null,
-    "name": "burn",
-    "inputs": [
-      { "internalType": "uint256", "name": "tokenId", "type": "uint256" }
-    ],
-    "outputs": [],
-    "type": "function",
-    "stateMutability": "nonpayable"
   },
   {
     "anonymous": null,

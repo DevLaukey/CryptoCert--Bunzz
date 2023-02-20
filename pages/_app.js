@@ -11,7 +11,7 @@ function MyApp({ Component, pageProps }) {
 
 
   useEffect(() => {
-    const contractAddress = "0x8f9c63b1abF719b644367492131D3e06bCA2D756"
+    const contractAddress = "0xFd34c62A91BdE0de7eBcf9b56f36FDee69874340"
     window.ethereum ?
       ethereum.request({ method: "eth_requestAccounts" }).then((accounts) => {
         setAddress(accounts[0])
