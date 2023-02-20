@@ -37,13 +37,18 @@ const UploadForm = () => {
       })
       .then((result) => {
         console.log(result);
-        
+        toast.success("Certificate Minted Successfully", {
+          position: toast.POSITION.TOP_CENTER,
+        });
       })
-      .catch((err) => console.log(err))
+      .catch((err) =>
+        toast.error("Certificate Minting Failed", {
+          position: toast.POSITION.TOP_CENTER,
+        })
+      )
       .finally(() => {
         setMetadataURI("");
         setTargetAddress("");
-      
       });
   }
   return (

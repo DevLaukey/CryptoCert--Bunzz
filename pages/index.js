@@ -9,6 +9,7 @@ export default function Home() {
   const web3 = useContext(certContext).web3;
   const contract = useContext(certContext).contract;
   const address = useContext(certContext).address;
+  console.log(address);
   const [uri, setURI] = useState([]);
   useEffect(() => { 
     if (web3 && contract) {
@@ -38,6 +39,8 @@ export default function Home() {
               setURI((prev) => [...prev, data]);
             })
         }).catch((err) => console.log(err.message));
+
+      console.log(uri);
     }
   }
 
@@ -49,13 +52,7 @@ export default function Home() {
   return (
     <div>
       <Navbar />
-      <div class="container my-12 mx-auto px-4 md:px-12">
-        <div class="flex flex-wrap -mx-1 lg:-mx-4">
-          {uri.map((item) => { 
-
-      <CardGrid uri={item}/>
-          })}
-        </div></div>
+      <CardGrid uri={uri} />
     </div>
   );
 }
