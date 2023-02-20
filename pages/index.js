@@ -9,7 +9,6 @@ export default function Home() {
   const web3 = useContext(certContext).web3;
   const contract = useContext(certContext).contract;
   const address = useContext(certContext).address;
-  console.log(address);
   const [uri, setURI] = useState([]);
   useEffect(() => { 
     if (web3 && contract) {

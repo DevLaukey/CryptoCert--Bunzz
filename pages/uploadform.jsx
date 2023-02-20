@@ -40,16 +40,17 @@ const UploadForm = () => {
         toast.success("Certificate Minted Successfully", {
           position: toast.POSITION.TOP_CENTER,
         });
+        clearInput();
       })
       .catch((err) =>
         toast.error("Certificate Minting Failed", {
           position: toast.POSITION.TOP_CENTER,
         })
-      )
-      .finally(() => {
-        setMetadataURI("");
-        setTargetAddress("");
-      });
+      );
+  }
+  function clearInput() {
+    setTargetAddress("");
+    setMetadataURI("");
   }
   return (
     <>
@@ -73,6 +74,7 @@ const UploadForm = () => {
                     onChange={(e) => {
                       setTargetAddress(e.target.value);
                     }}
+                    value={targetAddress}
                   />
                 </div>
                 <div class="form-group mb-6">
@@ -84,6 +86,7 @@ const UploadForm = () => {
                     onChange={(e) => {
                       setMetadataURI(e.target.value);
                     }}
+                    value={metadataURI}
                   />
                 </div>
 
