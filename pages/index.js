@@ -26,7 +26,7 @@ export default function Home() {
   }, []);
 
   function getCertificates(count) {
-    for (let i = 1; i <= count; i++) {
+    for (let i = 0; i <= count; i++) {
       contract.methods
         .tokenByIndex(i)
         .call()

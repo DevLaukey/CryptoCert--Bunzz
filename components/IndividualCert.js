@@ -10,7 +10,7 @@ const IndividualCert = ({ data }) => {
             >
                 <a href="#">
                     <img
-                        src="https://gateway.pinata.cloud/ipfs/QmZKvtY8eJcm1QVAzFQTBGQrRdCZ3jJRrRpKmd87cVY7wC/leon-wu-LLfRMRT-9AY-unsplash.jpg"
+                        src={data}
                     />
                 </a>
 

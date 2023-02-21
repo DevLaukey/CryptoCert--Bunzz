@@ -23,9 +23,13 @@ function MyApp({ Component, pageProps }) {
       : console.log("Please install MetaMask")
   }, [])
   console.log(address, contract, web3)
-  return (<certContext.Provider value={{ address, contract, web3 }}>
-    <Component {...pageProps} />
-  </certContext.Provider>)
+  return (
+    <certContext.Provider value={{ address, contract, web3 }}>
+        <Component {...pageProps} />
+    </certContext.Provider>
+  )
 }
 
 export default MyApp
+
+// 
