@@ -61,3 +61,10 @@ cleanData(filename)
     .catch((error) => {
         console.error(error);
     });
+
+    //   <div class="border-dashed border-2 w-full border-gray-400 py-12 flex flex-col justify-center items-center">
+                            //     <p class="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
+                            //         <span>Choose Cert</span>&nbsp;<span>Excel Sheet as CSV file</span>
+                            //     </p>
+                            //     <input onChange={onCertUpload} type="file" name="file" multiple />
+                            // </div >

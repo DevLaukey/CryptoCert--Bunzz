@@ -5,13 +5,12 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const dataUpload = () => {
-    const [imgsSrc, setImgsSrc] = useState([])
-        ;
+    const [imgsSrc, setImgsSrc] = useState([]);
     const [fileImg, setFileImg] = useState(null); // for image upload
-    const [fileSrc, setFileSrc] = useState([]);     // for certificate upload
-
+    const [fileImages, setFileImages] = useState(null); // for image upload
 
     const onImgChange = (e) => {
+        setFileImages(e.target.files);
         for (const file of e.target.files) {
             const reader = new FileReader();
             reader.readAsDataURL(file);
@@ -26,6 +25,7 @@ const dataUpload = () => {
 
 
     const onCertUpload = (e) => {
+
         for (const file of e.target.files) {
             const reader = new FileReader();
             reader.readAsDataURL(file);
@@ -72,11 +72,29 @@ const dataUpload = () => {
     const sendFileToIPFS = async (e) => {
         e.preventDefault();
 
+
         if (fileImg) {
             try {
 
                 const formData = new FormData();
-                formData.append("file", fileImg);
+
+                Array.from(fileImages).forEach((file) => {
+                    formData.append("file", file)
+                })
+
+                const metadata = JSON.stringify({
+                    name: 'Certificates',
+                    school: 'Dedan Kimathi University of Technology',
+                    year: '2021',
+                    description: 'This is a certificate of completion for the course on Blockchain Technology'
+
+                });
+                formData.append('pinataMetadata', metadata);
+
+                const options = JSON.stringify({
+                    cidVersion: 0,
+                })
+                formData.append('pinataOptions', options);
 
                 const resFile = await axios({
                     method: "post",
@@ -100,6 +118,7 @@ const dataUpload = () => {
                 console.log(error)
             }
         }
+
     }
 
     const clearFrom = () => { }
@@ -113,18 +132,13 @@ const dataUpload = () => {
 
                             <div class="border-dashed border-2 w-full border-gray-400 py-12 flex flex-col justify-center items-center">
                                 <p class="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
-                                    <span>Choose Cert</span>&nbsp;<span>Images</span>
+                                    <span>Choose Cert</span>&nbsp;<span>Folder</span>
                                 </p>
                                 <input onChange={(e) => {
                                     onImgChange(e);
-                                }} type="file" name="file" multiple />
+                                }} directory="" webkitdirectory="" type="file" multiple/>
                             </div>
-                            <div class="border-dashed border-2 w-full border-gray-400 py-12 flex flex-col justify-center items-center">
-                                <p class="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
-                                    <span>Choose Cert</span>&nbsp;<span>Excel Sheet as CSV file</span>
-                                </p>
-                                <input onChange={onCertUpload} type="file" name="file" multiple />
-                            </div>
+                          
                         </div>
                         <h1 class="pt-8 pb-3 font-semibold sm:text-lg text-gray-900">
                             To Upload
