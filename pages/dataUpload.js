@@ -3,14 +3,12 @@ import FormData from 'form-data';
 import React, { useState } from 'react'
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import useCopy from "use-copy";
 
 const dataUpload = () => {
     const [imgsSrc, setImgsSrc] = useState([]);
+    const [fileSrc, setFileSrc] = useState([]);     // for certificate upload
     const [fileImg, setFileImg] = useState(null); // for image upload
     const [fileImages, setFileImages] = useState(null); // for image upload
-    const [imgHash, setImageHash] = useState(null); // for image
-    const [copied, copy, setCopied] = useCopy(`ipfs://${resFile.data.IpfsHash}`);
 
     const onImgChange = (e) => {
         setFileImages(e.target.files);
@@ -75,104 +73,95 @@ const dataUpload = () => {
     const sendFileToIPFS = async (e) => {
         e.preventDefault();
 
-        if (fileImg) {
-            toast.loading("Uploading Certificates to IPFS, Please be patient", {
-                position: toast.POSITION.TOP_CENTER,
-            });
-            try {
+        for (const fileImg of e.target.files) {
+            if (fileImg) {
+                try {
 
-                const formData = new FormData();
+                    const formData = new FormData();
 
-                Array.from(fileImages).forEach((file) => {
-                    formData.append("file", file)
-                })
+                    Array.from(fileImages).forEach((file) => {
+                        formData.append("file", file)
+                    })
 
-                const metadata = JSON.stringify({
-                    name: 'Certificates',
-                    school: 'Dedan Kimathi University of Technology',
-                    year: '2021',
-                    description: 'This is a certificate of completion for the course on Blockchain Technology'
+                    const metadata = JSON.stringify({
+                        name: 'Certificates',
+                        school: 'Dedan Kimathi University of Technology',
+                        year: '2021',
+                        description: 'This is a certificate of completion for the course on Blockchain Technology',
 
-                });
-                formData.append('pinataMetadata', metadata);
+                    });
+                    formData.append('pinataMetadata', metadata);
 
-                const options = JSON.stringify({
-                    cidVersion: 0,
-                })
-                formData.append('pinataOptions', options);
+                    const options = JSON.stringify({
+                        cidVersion: 0,
+                    })
+                    formData.append('pinataOptions', options);
 
-                const resFile = await axios({
-                    method: "post",
-                    url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
-                    data: formData,
-                    headers: {
-                        'pinata_api_key': `${process.env.NEXT_PUBLIC_PINATA_API_KEY}`,
-                        'pinata_secret_api_key': `${process.env.NEXT_PUBLIC_PINATA_API_SECRET}`,
-                        "Content-Type": "multipart/form-data"
-                    },
-                });
-                copy(`ipfs://${resFile.data.IpfsHash}`);
+                    const resFile = await axios({
+                        method: "post",
+                        url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+                        data: formData,
+                        headers: {
+                            'pinata_api_key': `${process.env.NEXT_PUBLIC_PINATA_API_KEY}`,
+                            'pinata_secret_api_key': `${process.env.NEXT_PUBLIC_PINATA_API_SECRET}`,
+                            "Content-Type": "multipart/form-data"
+                        },
+                    });
 
-                toast.success(`Certificates Uploaded Successfully to ipfs://${resFile.data.IpfsHash}, Hash Copied to your clipboard`, {
-                    position: toast.POSITION.TOP_CENTER,
-                });
-             
-                const ImgHash = `ipfs://${resFile.data.IpfsHash}`;
-                setImageHash(ImgHash);
-                //Take a look at your Pinata Pinned section, you will see a new file added to you list.   
+                    const ImgHash = `ipfs://${resFile.data.IpfsHash}`;
+                    console.log(ImgHash);
+                    //Take a look at your Pinata Pinned section, you will see a new file added to you list.   
 
 
 
-            } catch (error) {
-                console.log("Error sending File to IPFS: ")
-                toast.error("Error sending File to IPFS: ", {
-                    position: toast.POSITION.TOP_CENTER,
-                });
-            }
-            finally {
-                clearFrom();
+                } catch (error) {
+                    console.log("Error sending File to IPFS: ")
+                    console.log(error)
+                }
             }
         }
 
+
+        
+
     }
 
-    const clearFrom = () => {
-        setImgsSrc([]);
-        setFileImg(null);
-     }
+    const clearFrom = () => { }
     return (
-        <>
-            <ToastContainer />
+        <div className='flex flex-col flex-wrap justify-center items-center' >
+            <section class="container mx-auto max-w-screen-lg h-full ">
+                <article aria-label="File Upload Modal" class="relative h-full flex  bg-white shadow-xl rounded-md" >
 
-            <div className='flex flex-col flex-wrap justify-center items-center' >
-            <section className="container mx-auto max-w-screen-lg h-full ">
-                <article aria-label="File Upload Modal" className="relative h-full flex  bg-white shadow-xl rounded-md" >
+                    <section class="h-full overflow-auto p-8 w-full">
+                        <div class="w-full flex justify-between">
 
-                    <section className="h-full overflow-auto p-8 w-full">
-                        <div className="w-full flex justify-between">
-
-                            <div className="border-dashed border-2 w-full border-gray-400 py-12 flex flex-col justify-center items-center">
-                                <p className="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
-                                    <span>Choose Cert</span>&nbsp;<span>Folder</span>
+                            <div class="border-dashed border-2 w-full border-gray-400 py-12 flex flex-col justify-center items-center">
+                                <p class="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
+                                    <span>Choose Cert</span>&nbsp;<span>Images</span>
                                 </p>
                                 <input onChange={(e) => {
                                     onImgChange(e);
-                                }} directory="" webkitdirectory="" type="file" multiple/>
+                                }} type="file" name="file" multiple />
                             </div>
-                          
+                            <div class="border-dashed border-2 w-full border-gray-400 py-12 flex flex-col justify-center items-center">
+                                <p class="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
+                                    <span>Choose Cert</span>&nbsp;<span>Excel Sheet as CSV file</span>
+                                </p>
+                                <input onChange={onCertUpload} type="file" name="file" multiple />
+                            </div>
                         </div>
-                        <h1 className="pt-8 pb-3 font-semibold sm:text-lg text-gray-900">
+                        <h1 class="pt-8 pb-3 font-semibold sm:text-lg text-gray-900">
                             To Upload
                         </h1>
-                        <ul id="gallery" className="flex flex-1 flex-wrap -m-1">
+                        <ul id="gallery" class="flex flex-1 flex-wrap -m-1">
                             {imgsSrc.length !== 0 ?
-                                imgsSrc.map((link ,key) => (
-                                    <img className="mx-auto w-36" src={link} key={key}/>
+                                imgsSrc.map((link) => (
+                                    <img class="mx-auto w-36" src={link} />
                                 ))
                                 : (
-                                    <li id="empty" className="h-full w-full text-center flex flex-col items-center justify-center ">
-                                        <img className="mx-auto w-32" src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png" alt="no data" />
-                                        <span className="text-small text-gray-500">No files selected</span>
+                                    <li id="empty" class="h-full w-full text-center flex flex-col items-center justify-center ">
+                                        <img class="mx-auto w-32" src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png" alt="no data" />
+                                        <span class="text-small text-gray-500">No files selected</span>
                                     </li>)}
                         </ul>
                     </section>
@@ -182,21 +171,19 @@ const dataUpload = () => {
                 <input type="file" onChange={(e) => setFileImg(e.target.files[0])} required />
                 <button type='submit' >Mint NFT</button>
             </form> */}
-            <section className="container mx-auto max-w-screen-lg h-full">
-                <article aria-label="File Upload Modal" className="relative h-full flex flex-col bg-white shadow-xl rounded-md" >
-                    <footer className="flex justify-end px-8 pb-8 pt-4">
-                        <button id="submit" className="rounded-sm px-3 py-1 bg-blue-700 hover:bg-blue-500 text-white focus:shadow-outline focus:outline-none" onClick={sendFileToIPFS}>
+            <section class="container mx-auto max-w-screen-lg h-full">
+                <article aria-label="File Upload Modal" class="relative h-full flex flex-col bg-white shadow-xl rounded-md" >
+                    <footer class="flex justify-end px-8 pb-8 pt-4">
+                        <button id="submit" class="rounded-sm px-3 py-1 bg-blue-700 hover:bg-blue-500 text-white focus:shadow-outline focus:outline-none" onClick={sendFileToIPFS}>
                             Upload now
                         </button>
-                        <button onClick={clearFrom} id="cancel" className="ml-3 rounded-sm px-3 py-1 hover:bg-gray-300 focus:shadow-outline focus:outline-none">
+                        <button onClick={clearFrom} id="cancel" class="ml-3 rounded-sm px-3 py-1 hover:bg-gray-300 focus:shadow-outline focus:outline-none">
                             Cancel
                         </button>
                     </footer>
                 </article>
             </section>
-        </div>
-        </>
-    )
+        </div>)
 
 }
 

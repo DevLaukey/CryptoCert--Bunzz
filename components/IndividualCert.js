@@ -1,7 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-const IndividualCert = ({ data }) => {
-    console.log(data)
+const IndividualCert = ({ data, path }) => {
+    const [certLink, setCertLink] = React.useState('');
+
+    useEffect(() => { 
+        ipfsToPinata(data, path);
+    }, [data, path]);
+
+    function ipfsToPinata(url, path) {
+        // Extract the IPFS hash from the URL
+        const ipfsHash = url.replace('ipfs://', '');
+
+        // Build the Pinata gateway URL with the IPFS hash and specified path
+        const pinataUrl = `https://gateway.pinata.cloud/ipfs/${ipfsHash}/${path}`;
+
+       setCertLink( pinataUrl);
+    }
     return (
         <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3  ">
             <article
@@ -10,7 +24,7 @@ const IndividualCert = ({ data }) => {
             >
                 <a href="#">
                     <img
-                        src={data}
+                        src={certLink}
                     />
                 </a>
 

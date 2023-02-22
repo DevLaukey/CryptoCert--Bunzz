@@ -93,11 +93,7 @@ const UploadForm = () => {
                 <button
                   type="submit"
                   onClick={mintCerts}
-                  class="
-      w-full
-      px-6
-      py-2.5
-      bg-blue-600
+                  class="w-full px-6 py-2.5 bg-blue-600
       text-white
       font-medium
       text-xs
