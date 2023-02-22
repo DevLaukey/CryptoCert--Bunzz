@@ -103,6 +103,8 @@ const dataUpload = () => {
                             "Content-Type": "multipart/form-data"
                         },
                     }).then((res) => {
+                        
+                    (res.data.IpfsHash)
 
                         toast.success(`File Uploaded Successfully to ipfs://${res.data.IpfsHash}`, {
                             position: toast.POSITION.TOP_CENTER,

@@ -4,14 +4,14 @@ const csv = require('csv-parser');
 const filename = 'data.csv';
 
 let students = [];
-const Moralis = require("moralis").default;
+// const Moralis = require("moralis").default;
 
-async function uploadToIpfs() {
+// async function uploadToIpfs() {
 
-    await Moralis.start({
-        apiKey: "d6T5dpnyTp3esuqPDHOwtUopWTnyUuWjrJqalQVU8iUBxUpc1LlknselhwB99FSu",
-    });
-}
+//     await Moralis.start({
+//         apiKey: "d6T5dpnyTp3esuqPDHOwtUopWTnyUuWjrJqalQVU8iUBxUpc1LlknselhwB99FSu",
+//     });
+// }
 
 function cleanData(filename) {
     let cleaned_data = [];
@@ -42,7 +42,7 @@ cleanData(filename)
         const student_json = JSON.stringify(students);
 
         const images = [
-            { "url": "https://gateway.pinata.cloud/ipfs/QmZKvtY8eJcm1QVAzFQTBGQrRdCZ3jJRrRpKmd87cVY7wC/" },
+            { "url": "QmZKvtY8eJcm1QVAzFQTBGQrRdCZ3jJRrRpKmd87cVY7wC" },
             { "url": "https://gateway.pinata.cloud/ipfs/QmZKvtY8eJcm1QVAzFQTBGQrRdCZ3jJRrRpKmd87cVY7wC/" },
             { "url": "https://gateway.pinata.cloud/ipfs/QmZKvtY8eJcm1QVAzFQTBGQrRdCZ3jJRrRpKmd87cVY7wC/" }
         ];
@@ -50,11 +50,12 @@ cleanData(filename)
         function mapper(images, student_json) {
             let sj = JSON.parse(student_json);
             for (let i = 0; i < sj.length; i++) {
-                sj[i]['image-url'] = images[i].url;
+                sj[i].imageUrl= images[i].url
             }
 
             return sj;
         }
+
 
         console.log(mapper(images, student_json));
     })

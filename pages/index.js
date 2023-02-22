@@ -16,6 +16,7 @@ export default function Home() {
         .totalSupply()
         .call()
         .then((count) => {
+          console.log(count)
           for (let i = 0; i < count; i++) {
             contract.methods
               .tokenByIndex(i)
