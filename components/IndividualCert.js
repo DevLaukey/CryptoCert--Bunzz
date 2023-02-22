@@ -46,43 +46,32 @@ const IndividualCert = ({ data }) => {
 
   // console.log("certLink", `${certLink}?metadata[name]=Laukey Mwaura`);
   return (
-    <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3  ">
+    <div class="my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3 ">
       <article
         article
         class="overflow-hidden rounded-lg shadow-lg dark:bg-gray-600 "
       >
         <a href="#">
-          <img src={pinataUrl} />
+          <img src={pinataUrl} className="object-contain h-auto w-full" />
         </a>
 
-        <header class="flex items-center justify-between leading-tight p-2 md:p-4">
-          <h1 class="text-lg">
-            <a
-              class="no-underline hover:underline text-black dark:text-white"
-              href="#"
-            >
-              Certificate for {name}
-            </a>
-          </h1>
-          <h5>Certificate ID{id}</h5>
-          <p class="text-grey-darker text-sm dark:text-white">
-            {
-              moment(pinnedDate).format("LL") // February 22, 2023
-            }
-          </p>
+        <header class="flex items-left flex-col justify-between leading-tight p-2 md:p-4">
+          <h5 class="font-bold">Certificate ID:</h5>
+          <p class="text-sm text-ellipsis md:text-clip overflow-hidden">{id}</p>
         </header>
+        <p class="flex items-left flex-col justify-between leading-tight p-2 md:p-4">
+          Pinned on:{" "}
+          {
+            moment(pinnedDate).format("LL") // February 22, 2023
+          }
+        </p>
 
         <footer class="flex items-center justify-between leading-none p-2 md:p-4">
           <a
             class="flex items-center no-underline hover:underline text-black"
             href="#"
           >
-            <img
-              alt="Placeholder"
-              class="block rounded-full"
-              src="https://picsum.photos/32/32/?random"
-            />
-            <p class="ml-2 text-sm dark:text-white">Author Name</p>
+            Certificate for: <span class="text-sm pl-2">{name}</span>
           </a>
           <a
             class="no-underline text-grey-darker hover:text-red-dark dark:text-white"
