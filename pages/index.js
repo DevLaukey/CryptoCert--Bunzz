@@ -16,32 +16,45 @@ export default function Home() {
         .totalSupply()
         .call()
         .then((count) => {
-          getCertificates(count);
-        })
+          for (let i = 0; i < count; i++) {
+            contract.methods
+              .tokenByIndex(i)
+              .call()
+              .then((token) => {
+                contract.methods
+                  .tokenURI(token)
+                  .call().then((data) => {
+                    console.log(data);
+                    setURI((prev) => [...prev, data]);
+                  })
+              }).catch((err) => console.log(err.message));
+
+            console.log(uri);
+          }        })
         .catch((err) => console.log(err.message));
     }
     else {
       console.log("web3 or contract not found");
     }
-  }, []);
+  }, [web3, contract, address]);
 
-  function getCertificates(count) {
-    for (let i = 0; i < count; i++) {
-      contract.methods
-        .tokenByIndex(i)
-        .call()
-        .then((token) => {
-          contract.methods
-            .tokenURI(token)
-            .call().then((data) => {
-              console.log(data);
-              setURI((prev) => [...prev, data]);
-            })
-        }).catch((err) => console.log(err.message));
+  // function getCertificates(count) {
+  //   for (let i = 0; i < count; i++) {
+  //     contract.methods
+  //       .tokenByIndex(i)
+  //       .call()
+  //       .then((token) => {
+  //         contract.methods
+  //           .tokenURI(token)
+  //           .call().then((data) => {
+  //             console.log(data);
+  //             setURI((prev) => [...prev, data]);
+  //           })
+  //       }).catch((err) => console.log(err.message));
 
-      console.log(uri);
-    }
-  }
+  //     console.log(uri);
+  //   }
+  // }
 
 
 

@@ -51,9 +51,7 @@ const dataUpload = () => {
                         url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
                         data: img,
                         headers: {
-                            'pinata_api_key': `${process.env.NEXT_PUBLIC_PINATA_API_KEY}`,
-                            'pinata_secret_api_key': `${process.env.NEXT_PUBLIC_PINATA_API_SECRET}`,
-                            "Content-Type": "multipart/form-data"
+                            'Access-Control-Allow-Headers':'Content-Type, Authorization, pinata_secret_api_key'
                         },
                     }).then((res) => {
                         console.log(`ipfs://${res.data.IpfsHash}`);
