@@ -28,7 +28,7 @@ export default function Home() {
   function getCertificates(count) {
     for (let i = 0; i < count; i++) {
       contract.methods
-        .tokenByIndex(0)
+        .tokenByIndex(i)
         .call()
         .then((token) => {
           contract.methods

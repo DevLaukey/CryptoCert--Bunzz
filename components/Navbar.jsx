@@ -1,15 +1,36 @@
 import React, { useContext } from "react";
 import certContext from "../context/cert_context";
+import axios from "axios";
 
 const Navbar = () => {
   const [loggedIn, setLoggedIn] = React.useState(false);
-
+  const [search, setSearch] = React.useState("");
   const address = useContext(certContext).address;
   React.useEffect(() => { 
     if (address !== null) {
       setLoggedIn(true);
     }
-  },[address]);
+  }, [address]);
+  
+  async function searchCert() {
+    let baseUrl = "https://api.pinata.cloud/data/pinList?includeCount=false";
+
+    let searchUrl =
+      baseUrl + "&status=pinned&metadata[certificateId]=" + search;
+
+    // ?metadata[name]=exampleName&metadata[keyvalues]={"exampleKey":{"value":"exampleValue","op":"exampleOp"},"exampleKey2":{"value":"exampleValue2","op":"exampleOp2"}}
+
+    await axios
+      .get(searchUrl, {
+        headers: {
+          pinata_api_key: `${process.env.NEXT_PUBLIC_PINATA_API_KEY}`,
+          pinata_secret_api_key: `${process.env.NEXT_PUBLIC_PINATA_API_SECRET}`
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+      });
+  }
   return (
     <nav className="bg-white  sticky border-gray-400 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900 mt-7">
       <div className="container flex flex-col  items-center justify-around mx-auto flex-wrap md:flex-nowrap">

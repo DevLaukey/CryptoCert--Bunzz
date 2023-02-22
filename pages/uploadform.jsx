@@ -29,6 +29,9 @@ const UploadForm = () => {
   }, []);
 
   async function mintCerts(e) {
+    toast.loading("Minting Certificate... Kindly be patient", {
+      position: toast.POSITION.TOP_CENTER,
+    });
     e.preventDefault();
     await contract.methods
       .safeMint(targetAddress, metadataURI)
@@ -42,10 +45,11 @@ const UploadForm = () => {
         });
         clearInput();
       })
-      .catch((err) =>
+      .catch((err) => {
+        console.log(err);
         toast.error("Certificate Minting Failed", {
           position: toast.POSITION.TOP_CENTER,
-        })
+        })}
       );
   }
   function clearInput() {
@@ -54,7 +58,7 @@ const UploadForm = () => {
   }
   return (
     <>
-      <ToastContainer />
+      <ToastContainer draggable pauseOnHover autoClose={5000} />
 
       {session ? (
         <div class="container my-24 px-6 mx-auto">
