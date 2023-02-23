@@ -173,7 +173,7 @@ const dataUpload = () => {
           //Take a look at your Pinata Pinned section, you will see a new file added to you list.
         } catch (error) {
           console.log("Error sending File to IPFS: ");
-          toast.error(`Error sending File to IPFS: ${error}`, {
+          toast.error(`Error sending File to IPFS: ${error.message}`, {
             position: toast.POSITION.TOP_CENTER,
           });
           setLoading(false);
@@ -206,7 +206,7 @@ const dataUpload = () => {
           <h1 className="text-center font-bold">
             Upload Certificate Image and Description
                   </h1>
-                  <p>IPFS:{ ipfsHash && ipfsHash }</p>
+                  <p>{ ipfsHash && `IPFS: ${ipfsHash}` }</p>
           <h5 className="text-base mb-2 font-semibold text-gray-900 text-center">
             Copy the hash link that will be generated and upload to the
             <a className="text-blue-400 underline ml-1" href="/uploadform">
