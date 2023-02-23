@@ -1,15 +1,18 @@
 import axios from 'axios';
+import csvParser from 'csv-parser';
 import FormData from 'form-data';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Back from '../components/Back';
+import * as XLSX from 'xlsx';
 
 const dataUpload = () => {
     const [imgsSrc, setImgsSrc] = useState([]);
-    const [fileSrc, setFileSrc] = useState([]);     // for certificate upload
-    const [fileImg, setFileImg] = useState(null); // for image upload
+    const [loading, setLoading] = useState(false); // for image upload
     const [fileImages, setFileImages] = useState(null); // for image upload
-
+    const [file, setFile] = useState(null);
+    const [imageName, setImageName] = useState([]);
     const onImgChange = (e) => {
         setFileImages(e.target.files);
         for (const file of e.target.files) {
@@ -21,60 +24,111 @@ const dataUpload = () => {
             reader.onerror = () => {
                 console.log(reader.error);
             };
+
+            setImageName((imgs) => [...imgs, file.name]);
         };
     }
 
 
-    const onCertUpload = (e) => {
-
-        for (const file of e.target.files) {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => {
-                setFileSrc((imgs) => [...imgs, reader.result]);
-            };
-            reader.onerror = () => {
-                console.log(reader.error);
-            };
+    function mapper(images, student_json) {
+        // student_json.sort()
+        images.sort()
+        
+        for (let i = 0; i < student_json.length-1; i++) {
+            student_json[i].imageUrl = images[i]
+            
         }
+        console.log(student_json);
     }
 
-    const sendImgToIPFS = async () => {
-        console.log("clicked");
-        imgsSrc.map(async (img) => {
-            if (img) {
-                try {
-                    const formData = new FormData();
-                    formData.append("file", img);
-                    await axios({
-                        method: "post",
-                        url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
-                        data: img,
-                        headers: {
-                            'Access-Control-Allow-Headers':'Content-Type, Authorization, pinata_secret_api_key'
-                        },
-                    }).then((res) => {
-                        console.log(`ipfs://${res.data.IpfsHash}`);
-                        toast.success(`Image Uploaded Successfully to ipfs://${res.data.IpfsHash}`);
-                    }).catch((err) => { console.log(err) });
-                    //Take a look at your Pinata Pinned section, you will see a new file added to you list.   
-                } catch (error) {
-                    console.log("Error sending Image to IPFS: ")
-                    console.log(error)
-                }
-            }
-            else {
-                console.log("No Image Found");
-            }
-        });
+
+
+
+    // function cleanData(filename) {
+    //     let students = [];
+
+    //     let cleaned_data = [];
+
+    //     return new Promise((resolve, reject) => {
+    //         fs.createReadStream(filename)
+    //             .pipe(csvParser())
+    //             .on('data', (data) => {
+    //                 students.push(data);
+    //             })
+    //             .on('end', () => {
+    //                 for (let i = 0; i < students.length; i++) {
+    //                     delete students[i][''];
+    //                     if (Object.values(students[i]).every(val => val !== '')) {
+    //                         cleaned_data.push(students[i]);
+    //                     }
+    //                 }
+    //                 resolve(cleaned_data);
+    //             })
+    //             .on('error', (error) => {
+    //                 reject(error);
+    //             });
+    //     });
+    // }
+
+    const onCertUpload = async (e) => {
+        let file = e.target.files[0];
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            const binaryString = event.target.result;
+            const workbook = XLSX.read(binaryString, { type: 'binary' });
+            const sheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[sheetName];
+            setFile(XLSX.utils.sheet_to_json(worksheet));
+        };
+        reader.readAsBinaryString(file);
+
+
     }
+    // if (!file) {
+    //     console.log("no file")
+    // }
+    // const formData = new FormData();
+    // formData.append("file", file)
+
+
+    // axios('/api/staticdata', {
+    //     method: 'POST',
+    //     body: formData,
+    //     // 👇 Set headers manually for single file upload
+
+    // }).then((res) => {
+    //     console.log(res)
+    // }).catch((err) => { console.log(err) })
+
+    // cleanData(e.target.files[0])
+    //     .then((students) => {
+    //         const student_json = JSON.stringify(students);
+
+    //         const images = fileImages
+    //         function mapper(images, student_json) {
+    //             let sj = JSON.parse(student_json);
+    //             for (let i = 0; i < sj.length; i++) {
+    //                 sj[i].imageUrl = images[i].url
+    //             }
+
+    //             return sj;
+    //         }
+
+
+    //         console.log(mapper(images, student_json));
+    //     })
+    //     .catch((error) => {
+    //         console.error(error);
+    //     });
+
     const sendFileToIPFS = async (e) => {
         e.preventDefault();
 
         for (const fileImg of fileImages) {
             if (fileImg) {
                 try {
-
+                    setLoading(true);
                     const formData = new FormData();
 
                     formData.append("file", fileImg)
@@ -103,12 +157,13 @@ const dataUpload = () => {
                             "Content-Type": "multipart/form-data"
                         },
                     }).then((res) => {
-                        
-                    (res.data.IpfsHash)
 
+                        console.log(res.data.IpfsHash)
+                        setLoading(false);
                         toast.success(`File Uploaded Successfully to ipfs://${res.data.IpfsHash}`, {
                             position: toast.POSITION.TOP_CENTER,
                         });
+
                     });
 
                     const ImgHash = `ipfs://${resFile.data.IpfsHash}`;
@@ -120,8 +175,8 @@ const dataUpload = () => {
                 } catch (error) {
                     console.log("Error sending File to IPFS: ")
                     toast.error(`Error sending File to IPFS: ${error}`, {
-                    position: toast.POSITION.TOP_CENTER,
-                });
+                        position: toast.POSITION.TOP_CENTER,
+                    });
                 }
             }
         }
@@ -137,13 +192,19 @@ const dataUpload = () => {
     return (
         <>
             <ToastContainer />
+            {loading ?
+                toast.loading(`Uploading to IPFS`, {
+                    position: toast.POSITION.TOP_CENTER,
+                })
 
+                : null}
+            <Back />
             <div className='flex flex-col flex-wrap justify-center items-center' >
                 <section class="container mx-auto max-w-screen-lg h-full ">
                     <article aria-label="File Upload Modal" class="relative h-full flex  bg-white shadow-xl rounded-md" >
 
                         <section class="h-full overflow-auto p-8 w-full">
-                            <div class="w-full flex justify-between">
+                            <div class="w-full flex flex-wrap md:flex-nowrap lg:flex-nowrap justify-between">
 
                                 <div class="border-dashed border-2 w-full border-gray-400 py-12 flex flex-col justify-center items-center">
                                     <p class="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
@@ -157,7 +218,10 @@ const dataUpload = () => {
                                     <p class="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
                                         <span>Choose Cert</span>&nbsp;<span>Excel Sheet as CSV file</span>
                                     </p>
-                                    <input onChange={onCertUpload} type="file" name="file" multiple />
+                                    <input onChange={(e) => {
+                                        onCertUpload(e);
+
+                                    }} type="file" name="file" />
                                 </div>
                             </div>
                             <h1 class="pt-8 pb-3 font-semibold sm:text-lg text-gray-900">
@@ -165,8 +229,8 @@ const dataUpload = () => {
                             </h1>
                             <ul id="gallery" class="flex flex-1 flex-wrap -m-1">
                                 {imgsSrc.length !== 0 ?
-                                    imgsSrc.map((link) => (
-                                        <img class="mx-auto w-36" src={link} />
+                                    imgsSrc.map((link, key) => (
+                                        <img class="mx-auto w-36" src={link} key={key} />
                                     ))
                                     : (
                                         <li id="empty" class="h-full w-full text-center flex flex-col items-center justify-center ">
@@ -184,7 +248,7 @@ const dataUpload = () => {
                 <section class="container mx-auto max-w-screen-lg h-full">
                     <article aria-label="File Upload Modal" class="relative h-full flex flex-col bg-white shadow-xl rounded-md" >
                         <footer class="flex justify-end px-8 pb-8 pt-4">
-                            <button id="submit" class="rounded-sm px-3 py-1 bg-blue-700 hover:bg-blue-500 text-white focus:shadow-outline focus:outline-none" onClick={sendFileToIPFS}>
+                            <button id="submit" class="rounded-sm px-3 py-1 bg-blue-700 hover:bg-blue-500 text-white focus:shadow-outline focus:outline-none" onClick={()=>mapper(imageName, file)}>
                                 Upload now
                             </button>
                             <button onClick={clearFrom} id="cancel" class="ml-3 rounded-sm px-3 py-1 hover:bg-gray-300 focus:shadow-outline focus:outline-none">
@@ -200,3 +264,4 @@ const dataUpload = () => {
 }
 
 export default dataUpload
+

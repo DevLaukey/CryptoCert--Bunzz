@@ -13,7 +13,7 @@ const IndividualCert = ({ data }) => {
   return (
     <div className="my-1 px-1 w-1/2 md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3 ">
       <article className="overflow-hidden rounded-lg shadow-lg dark:bg-gray-600 ">
-        <a href={`/cert/${id}`}>
+        <a href={`/cert/${ipfsHash}`}>
           <img src={pinataUrl} className="object-contain h-auto w-full " />
         </a>
 

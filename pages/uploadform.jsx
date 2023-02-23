@@ -7,6 +7,7 @@ import Auth from "../components/Auth";
 import { toast, ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import Back from "../components/Back";
 
 const UploadForm = () => {
   const [metadataURI, setMetadataURI] = useState("");
@@ -58,6 +59,7 @@ const UploadForm = () => {
   }
   return (
     <>
+      <Back/>
       <ToastContainer draggable pauseOnHover autoClose={5000} />
 
       {session ? (

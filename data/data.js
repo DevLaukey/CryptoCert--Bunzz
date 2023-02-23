@@ -2,8 +2,8 @@ const fs = require('fs');
 const csv = require('csv-parser');
 
 const filename = 'data.csv';
+students = []
 
-let students = [];
 // const Moralis = require("moralis").default;
 
 // async function uploadToIpfs() {
@@ -50,7 +50,7 @@ cleanData(filename)
         function mapper(images, student_json) {
             let sj = JSON.parse(student_json);
             for (let i = 0; i < sj.length; i++) {
-                sj[i].imageUrl= images[i].url
+                sj[i].imageUrl = images[i].url
             }
 
             return sj;
@@ -63,9 +63,3 @@ cleanData(filename)
         console.error(error);
     });
 
-    //   <div class="border-dashed border-2 w-full border-gray-400 py-12 flex flex-col justify-center items-center">
-                            //     <p class="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
-                            //         <span>Choose Cert</span>&nbsp;<span>Excel Sheet as CSV file</span>
-                            //     </p>
-                            //     <input onChange={onCertUpload} type="file" name="file" multiple />
-                            // </div >
