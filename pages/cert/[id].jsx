@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import Back from "../../components/Back";
+import moment from "moment";
 
 const ID = () => {
-    const router = useRouter();
-    const id  = router.query.id;
-    const [name, SetName] = useState("");
-    const [certLink, setCertLink] = useState("");
+  const router = useRouter();
+  const id = router.query.id;
+  const [name, SetName] = useState("");
+  const [certLink, setCertLink] = useState("");
+  const [pinnedDate, setPinnedDate] = useState("");
+  const [description, setDescription] = useState("");
   useEffect(() => {
     // const ipfsHash = dataCID.replace('ipfs://', '');
     const axiosConfig = {
@@ -27,13 +30,15 @@ const ID = () => {
       )
       .then((response) => {
         // Extract the file name from the metadata
-          SetName(response.data.rows[0].metadata.name);
-          let ipfsHash = response.data.rows[0].ipfs_pin_hash;
-          
-          console.log("metadata", response);
-          const cleanHash = ipfsHash?.replace("ipfs://", "");
-          const pinataUrl = `https://gateway.pinata.cloud/ipfs/${cleanHash}`;
-          setCertLink(pinataUrl);
+        SetName(response.data.rows[0].metadata.name);
+        let ipfsHash = response.data.rows[0].ipfs_pin_hash;
+
+        console.log("metadata", response);
+        const cleanHash = ipfsHash?.replace("ipfs://", "");
+        const pinataUrl = `https://gateway.pinata.cloud/ipfs/${cleanHash}`;
+        setCertLink(pinataUrl);
+        setPinnedDate(response.data.rows[0].pinned_date);
+        setDescription(response.data.rows[0].metadata.description);
       })
       .catch((error) => {
         console.error(error.message);
@@ -43,7 +48,7 @@ const ID = () => {
   // console.log("certLink", `${certLink}?metadata[name]=Laukey Mwaura`);
   return (
     <>
-     <Back/>
+      <Back />
       <div class="max-w-lg mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl grid h-full md:h-80 lg:h-80 place-items-center">
         <div class="md:flex my-3">
           <div class="md:shrink-0 items-center justify-center flex ">
@@ -56,16 +61,18 @@ const ID = () => {
             <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
               {name}
             </div>
-            <a
-              href="#"
-              class="block mt-1 text-lg leading-tight font-medium text-black hover:underline"
-            >
-              Incredible accommodation for your team
-            </a>
+            <p class="block mt-1 text-lg leading-tight font-medium text-black hover:underline">
+              Pinned on:
+              {
+                moment(pinnedDate).format("LL") // February 22, 2023
+              }
+            </p>
             <p class="mt-2 text-slate-500">
-              Looking to take your team away on a retreat to enjoy awesome food
-              and take in some sunshine? We have a list of places to do just
-              that.
+              {description
+                ? {
+                    description,
+                  }
+                : "No Description"}
             </p>
           </div>
         </div>
@@ -76,4 +83,4 @@ const ID = () => {
 
 export default ID;
 
-// 
+//

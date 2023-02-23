@@ -8,8 +8,10 @@ import { toast, ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import Back from "../components/Back";
+import { useRouter } from "next/router";
 
 const UploadForm = () => {
+  const router = useRouter()
   const [metadataURI, setMetadataURI] = useState("");
   const [targetAddress, setTargetAddress] = useState("");
   // "https://gateway.pinata.cloud/ipfs/QmZKvtY8eJcm1QVAzFQTBGQrRdCZ3jJRrRpKmd87cVY7wC/";
@@ -40,7 +42,7 @@ const UploadForm = () => {
         from: address,
       })
       .then((result) => {
-        console.log(result);
+        router.push('/');
         toast.success("Certificate Minted Successfully", {
           position: toast.POSITION.TOP_CENTER,
         });

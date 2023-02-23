@@ -2,21 +2,22 @@ import React, { useContext } from "react";
 import certContext from "../context/cert_context";
 import axios from "axios";
 
-const Navbar = () => {
+const Navbar = ({ setURI }) => {
   const [loggedIn, setLoggedIn] = React.useState(false);
   const [search, setSearch] = React.useState("");
   const address = useContext(certContext).address;
-  React.useEffect(() => { 
+
+  React.useEffect(() => {
     if (address !== null) {
       setLoggedIn(true);
     }
   }, [address]);
-  
-  async function searchCert() {
+
+  async function searchCert(e) {
+    e.preventDefault();
     let baseUrl = "https://api.pinata.cloud/data/pinList?includeCount=false";
 
-    let searchUrl =
-      baseUrl + "&status=pinned&metadata[certificateId]=" + search;
+    let searchUrl = baseUrl + "&status=pinned&metadata[name]=" + search;
 
     // ?metadata[name]=exampleName&metadata[keyvalues]={"exampleKey":{"value":"exampleValue","op":"exampleOp"},"exampleKey2":{"value":"exampleValue2","op":"exampleOp2"}}
 
@@ -24,11 +25,12 @@ const Navbar = () => {
       .get(searchUrl, {
         headers: {
           pinata_api_key: `${process.env.NEXT_PUBLIC_PINATA_API_KEY}`,
-          pinata_secret_api_key: `${process.env.NEXT_PUBLIC_PINATA_API_SECRET}`
+          pinata_secret_api_key: `${process.env.NEXT_PUBLIC_PINATA_API_SECRET}`,
         },
       })
       .then((res) => {
-        console.log(res.data);
+        setURI(null);
+        setURI(res.data.rows);
       });
   }
   return (
@@ -61,7 +63,7 @@ const Navbar = () => {
                 href="#"
                 className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
               >
-                About
+                Instructions
               </a>
             </li>
             <li>
@@ -105,10 +107,12 @@ const Navbar = () => {
               className="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
               placeholder="Search for a certificate"
               required
+              onChange={(e) => setSearch(e.target.value)}
             />
             <button
               type="submit"
               className="text-white absolute right-2.5 bottom-1.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-1 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              onClick={searchCert}
             >
               Search
             </button>

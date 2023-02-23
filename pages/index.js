@@ -101,7 +101,7 @@ export default function Home() {
 
   return (
     <div>
-      <Navbar />
+      <Navbar setURI={setURI} />
       <div class="container my-12 mx-auto px-4 md:px-12">
         <div class="flex flex-wrap -mx-1 lg:-mx-4">
           {uri.length !== 0 ? (
