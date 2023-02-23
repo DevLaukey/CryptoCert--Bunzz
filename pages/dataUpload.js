@@ -13,6 +13,12 @@ const dataUpload = () => {
   const [fileImages, setFileImages] = useState(null); // for image upload
   const [file, setFile] = useState(null);
   const [imageName, setImageName] = useState([]);
+
+  const [name, setName] = useState("");
+  const [schoolName, setSchoolName] = useState("");
+    const [description, setDescription] = useState("");
+    const [ipfsHash, setIpfsHash] = useState("");
+
   const onImgChange = (e) => {
     setFileImages(e.target.files);
     for (const file of e.target.files) {
@@ -115,9 +121,9 @@ const dataUpload = () => {
 
   const sendFileToIPFS = async (e) => {
     e.preventDefault();
-    let data = mapper(imageName, file);
+    // let data = mapper(imageName, file);
 
-    const data_obj = Object.assign({}, data);
+    // const data_obj = Object.assign({}, data);
 
     for (const fileImg of fileImages) {
       if (fileImg) {
@@ -127,13 +133,11 @@ const dataUpload = () => {
 
           formData.append("file", fileImg);
 
-            const metadata = JSON.stringify({
-              name: "Certificates",
-              school: "Dedan Kimathi University of Technology",
-              year: "2021",
-              description:
-                "This is a certificate of completion for the course on Blockchain Technology",
-            });
+          const metadata = JSON.stringify({
+            name: name,
+            school: schoolName,
+            description: description,
+          });
           console.log(metadata);
           formData.append("pinataMetadata", metadata);
 
@@ -154,6 +158,7 @@ const dataUpload = () => {
           }).then((res) => {
             console.log(res.data.IpfsHash);
             setLoading(false);
+            setIpfsHash(res.data.IpfsHash);
             toast.success(
               `File Uploaded Successfully to ipfs://${res.data.IpfsHash}`,
               {
@@ -198,17 +203,79 @@ const dataUpload = () => {
       <Back />
       <div className="flex flex-col flex-wrap justify-center items-center">
         <section className="container mx-auto max-w-screen-lg h-full ">
+          <h1 className="text-center font-bold">
+            Upload Certificate Image and Description
+                  </h1>
+                  <p>IPFS:{ ipfsHash && ipfsHash }</p>
+          <h5 className="text-base mb-2 font-semibold text-gray-900 text-center">
+            Copy the hash link that will be generated and upload to the
+            <a className="text-blue-400 underline ml-1" href="/uploadform">
+              form here
+            </a>
+          </h5>
           <article
             aria-label="File Upload Modal"
             className="relative h-full flex  bg-white shadow-xl rounded-md"
           >
             <section className="h-full overflow-auto p-8 w-full">
-              <h5 className="text-base mb-2 font-semibold text-gray-900 text-center">
-                Copy the hash link generated and upload to the
-                <a className="text-blue-400 underline ml-1" href="/uploadform">
-                  form here
-                </a>
-              </h5>
+              <form>
+                <div className="grid md:grid-cols-2 md:gap-6">
+                  <div className="relative z-0 w-full mb-6 group">
+                    <input
+                      type="text"
+                      name="floating_first_name"
+                      id="floating_first_name"
+                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      placeholder=" "
+                      onChange={(e) => setName(e.target.value)}
+                      required
+                    />
+                    <label
+                      for="floating_first_name"
+                      class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    >
+                      Student Name{" "}
+                    </label>
+                  </div>
+                  <div class="relative z-0 w-full mb-6 group">
+                    <input
+                      type="text"
+                      name="floating_last_name"
+                      id="floating_last_name"
+                      class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      placeholder=" "
+                      required
+                      onChange={(e) => setSchoolName(e.target.value)}
+                    />
+                    <label
+                      for="floating_last_name"
+                      class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    >
+                      School Name
+                    </label>
+                  </div>
+                </div>
+                <div class="grid  md:gap-6">
+                  <div class="relative z-0 w-full mb-6 group">
+                    <textarea
+                      type="text"
+                      name="floating_company"
+                      id="floating_company"
+                      class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      placeholder=" "
+                      required
+                      onChange={(e) => setDescription(e.target.value)}
+                    />
+                    <label
+                      for="floating_company"
+                      class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                    >
+                      Description{" "}
+                    </label>
+                  </div>
+                </div>
+              </form>
+
               <div className="w-full flex flex-wrap md:flex-nowrap lg:flex-nowrap justify-between">
                 <div className="border-dashed border-2 w-full border-gray-400 py-12 flex flex-col justify-center items-center">
                   <p className="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
@@ -223,7 +290,7 @@ const dataUpload = () => {
                     multiple
                   />
                 </div>
-                <div className="border-dashed border-2 w-full border-gray-400 py-12 flex flex-col justify-center items-center">
+                {/* <div className="border-dashed border-2 w-full border-gray-400 py-12 flex flex-col justify-center items-center">
                   <p className="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
                     <span>Choose Images</span>&nbsp;
                     <span>as an excel file</span>
@@ -235,7 +302,7 @@ const dataUpload = () => {
                     type="file"
                     name="file"
                   />
-                </div>
+                </div> */}
               </div>
               <h1 className="pt-8 pb-3 font-semibold sm:text-lg text-gray-900">
                 To Upload
