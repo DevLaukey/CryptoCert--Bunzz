@@ -1,5 +1,4 @@
 import axios from "axios";
-import csvParser from "csv-parser";
 import FormData from "form-data";
 import React, { useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
@@ -7,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Back from "../components/Back";
 import * as XLSX from "xlsx";
 
-const dataUpload = () => {
+const DataUpload = () => {
   const [imgsSrc, setImgsSrc] = useState([]);
   const [loading, setLoading] = useState(false); // for image upload
   const [fileImages, setFileImages] = useState(null); // for image upload
@@ -16,8 +15,8 @@ const dataUpload = () => {
 
   const [name, setName] = useState("");
   const [schoolName, setSchoolName] = useState("");
-    const [description, setDescription] = useState("");
-    const [ipfsHash, setIpfsHash] = useState("");
+  const [description, setDescription] = useState("");
+  const [ipfsHash, setIpfsHash] = useState("");
 
   const onImgChange = (e) => {
     setFileImages(e.target.files);
@@ -205,8 +204,8 @@ const dataUpload = () => {
         <section className="container mx-auto max-w-screen-lg h-full ">
           <h1 className="text-center font-bold">
             Upload Certificate Image and Description
-                  </h1>
-                  <p>{ ipfsHash && `IPFS: ${ipfsHash}` }</p>
+          </h1>
+          <p>{ipfsHash && `IPFS: ${ipfsHash}`}</p>
           <h5 className="text-base mb-2 font-semibold text-gray-900 text-center">
             Copy the hash link that will be generated and upload to the
             <a className="text-blue-400 underline ml-1" href="/uploadform">
@@ -363,4 +362,4 @@ const dataUpload = () => {
   );
 };
 
-export default dataUpload;
+export default DataUpload;

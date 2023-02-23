@@ -1,7 +1,7 @@
 import React from "react";
 import Back from "../components/Back";
 
-const instructions = () => {
+const Instructions = () => {
   return (
     <>
       <Back />
@@ -51,4 +51,4 @@ const instructions = () => {
   );
 };
 
-export default instructions;
+export default Instructions;

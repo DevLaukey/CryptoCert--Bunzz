@@ -15,13 +15,14 @@ export default function Auth() {
 
         try {
             setLoading(true)
-            let { data, error } = await supabase.auth.signInWithPassword({
+
+            let { data, error } = await supabase.auth.signInWithOtp({
                 email: email,
-                password: password
             })
+
             if (error) throw error
             if (data) {
-                toast.success(`Successfully Logged In`, {
+                toast.success(`Kindly check your email to login`, {
                     position: toast.POSITION.TOP_CENTER,
                 });
             }
@@ -63,7 +64,7 @@ export default function Auth() {
                             Read our <a href="#" class="underline">terms</a> and <a href="#" class="underline">conditions</a>
                         </p>
                     </div>
-                    <div class="p-5 bg-white md:flex-1">
+                    <div class="p-5 bg-white md:flex-1  items-center justify-center">
                         <h3 class="my-4 text-2xl font-semibold text-gray-700">Account Login</h3>
                         <form action="#" class="flex flex-col space-y-5">
                             <div class="flex flex-col space-y-1">
@@ -76,26 +77,7 @@ export default function Auth() {
                                     class="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200"
                                 />
                             </div>
-                            <div class="flex flex-col space-y-1">
-                                <div class="flex items-center justify-between">
-                                    <label for="password" class="text-sm font-semibold text-gray-500">Password</label>
-                                    <a href="#" class="text-sm text-blue-600 hover:underline focus:text-blue-800">Forgot Password?</a>
-                                </div>
-                                <input
-                                    type="password"
-                                    id="password"
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    class="px-4 py-2 transition duration-300 border border-gray-300 rounded focus:border-transparent focus:outline-none focus:ring-4 focus:ring-blue-200"
-                                />
-                            </div>
-                            <div class="flex items-center space-x-2">
-                                <input
-                                    type="checkbox"
-                                    id="remember"
-                                    class="w-4 h-4 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
-                                />
-                                <label for="remember" class="text-sm font-semibold text-gray-500">Remember me</label>
-                            </div>
+                        
                             <div>
                                 <button
                                     type="submit"

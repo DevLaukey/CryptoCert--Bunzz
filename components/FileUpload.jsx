@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const FileUpload = ({address}) => {
+const FileUpload = () => {
   const [files, setFile] = useState([]);
   const [message, setMessage] = useState();
   const handleFile = (e) => {

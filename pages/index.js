@@ -113,7 +113,8 @@ export default function Home() {
             <h2>Loading placeholder</h2>
           )}
         </div>
-      </div>    </div>
+      </div>
+    </div>
   );
 }
 
