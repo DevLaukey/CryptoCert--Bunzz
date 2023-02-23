@@ -59,22 +59,27 @@ const UploadForm = () => {
   }
   return (
     <>
-      <Back/>
+      <Back />
       <ToastContainer draggable pauseOnHover autoClose={5000} />
 
       {session ? (
-        <div class="container my-24 px-6 mx-auto">
-          <section class="mb-32 text-gray-800 text-center">
-            <h2 class="text-5xl my-12 font-bold tracking-tight">
+        <div className="container my-24 px-6 mx-auto">
+          <section className="mb-32 text-gray-800 text-center">
+            <h2 className="text-5xl my-12 font-bold tracking-tight">
               Welcome to CRYTPOCERT <br />
-              <span class="text-blue-600">Add Certificates?</span>
+              <span className="text-blue-600">Add Certificates?</span>
             </h2>
-            <div class="flex  justify-center items-center w-full bg-white max-w-md mx-auto">
-              <form class="w-full">
-                <div class="form-group mb-6">
+
+            <div className="flex  justify-center items-center w-full bg-white max-w-md mx-auto">
+              <form className="w-full">
+                <div className="form-group mb-6 relative">
+                  <label>
+                    Target Address is the wallet address of the school uploading
+                  </label>
+
                   <input
                     type="text"
-                    class="form-control block  w-full px-3  py-1.5  text-base font-normal text-gray-700 bg-white bg-clip-padding        border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    className="form-control block  w-full px-3  py-1.5  text-base font-normal text-gray-700 bg-white bg-clip-padding        border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                     id="exampleInput90"
                     placeholder="Target Address / School address"
                     onChange={(e) => {
@@ -83,10 +88,19 @@ const UploadForm = () => {
                     value={targetAddress}
                   />
                 </div>
-                <div class="form-group mb-6">
+                <div className="form-group mb-6">
+                  <label classNameName="text-left">
+                    The Metadata Hash is obtained from
+                    <a
+                      href="/dataUpload"
+                      className="text-decoration underline ml-2  text-blue-400"
+                    >
+                      here
+                    </a>
+                  </label>
                   <input
                     type="text"
-                    class="form-control block  w-full px-3  py-1.5  text-base font-normal text-gray-700 bg-white bg-clip-padding        border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    className="form-control block  w-full px-3  py-1.5  text-base font-normal text-gray-700 bg-white bg-clip-padding        border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                     id="exampleInput90"
                     placeholder="Metadata Hash/URI/CID"
                     onChange={(e) => {
@@ -99,7 +113,7 @@ const UploadForm = () => {
                 <button
                   type="submit"
                   onClick={mintCerts}
-                  class="w-full px-6 py-2.5 bg-blue-600
+                  className="w-full px-6 py-2.5 bg-blue-600
       text-white
       font-medium
       text-xs
