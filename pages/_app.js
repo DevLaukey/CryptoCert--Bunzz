@@ -22,7 +22,6 @@ function MyApp({ Component, pageProps }) {
       }).catch((err) => console.log(err))
       : console.log("Please install MetaMask")
   }, [])
-  console.log(address, contract, web3)
   return (
     <certContext.Provider value={{ address, contract, web3 }}>
         <Component {...pageProps} />

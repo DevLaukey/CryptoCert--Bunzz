@@ -12,7 +12,6 @@ const DataUpload = () => {
   const [imgsSrc, setImgsSrc] = useState([]);
   const [loading, setLoading] = useState(false); // for image upload
   const [fileImages, setFileImages] = useState(null); // for image upload
-  const [file, setFile] = useState(null);
   const [imageName, setImageName] = useState([]);
 
   const [name, setName] = useState("");
@@ -21,8 +20,7 @@ const DataUpload = () => {
   const [ipfsHash, setIpfsHash] = useState("");
 
   const onImgChange = (e) => {
-    for (let i = 0; i < e.target.files; i++) {
-      const fileType = file[i]["type"];
+      const fileType = e.target.files[0].type;
       const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
       if (!validImageTypes.includes(fileType)) {
         toast.error("only images accepted", {
@@ -30,7 +28,7 @@ const DataUpload = () => {
         });
         setMessage("only images accepted");
       }
-    }
+
     setFileImages(e.target.files);
     for (const file of e.target.files) {
       const reader = new FileReader();
@@ -46,8 +44,8 @@ const DataUpload = () => {
     }
   };
 
- 
-  
+
+
 
   const sendFileToIPFS = async (e) => {
     e.preventDefault();
@@ -84,7 +82,6 @@ const DataUpload = () => {
               "Content-Type": "multipart/form-data",
             },
           }).then((res) => {
-            console.log(res.data.IpfsHash);
             setLoading(false);
             setIpfsHash(res.data.IpfsHash);
             toast.success(
@@ -95,12 +92,8 @@ const DataUpload = () => {
               }
             );
           });
-
-          const ImgHash = `ipfs://${resFile.data.IpfsHash}`;
-          console.log(ImgHash);
           //Take a look at your Pinata Pinned section, you will see a new file added to you list.
         } catch (error) {
-          console.log("Error sending File to IPFS: ");
           toast.error(`Error sending File to IPFS: ${error.message}`, {
             position: toast.POSITION.TOP_CENTER,
           });
@@ -120,7 +113,9 @@ const DataUpload = () => {
         draggable: true,
       });
     }
-  }, [file, fileImages, loading]);
+  }, [ fileImages, loading]);
+
+
   const clearFrom = () => {
     setFileImages(null);
   };
@@ -134,7 +129,7 @@ const DataUpload = () => {
           <h1 className="text-center font-bold">
             Upload Certificate Image and Description
           </h1>
-          <p>{ipfsHash && `IPFS: ${ipfsHash}`}</p>
+          <p className="text-base mb-2 font-semibold text-gray-900 text-center">{ipfsHash && `IPFS: ${ipfsHash}`}</p>
           <h5 className="text-base mb-2 font-semibold text-gray-900 text-center">
             Copy the hash link that will be generated and upload to the
             <Link className="text-blue-400 underline ml-1" href="/uploadform">
@@ -207,7 +202,7 @@ const DataUpload = () => {
               <div className="w-full flex flex-wrap md:flex-nowrap lg:flex-nowrap justify-between">
                 <div className="border-dashed border-2 w-full border-gray-400 py-12 flex flex-col justify-center items-center">
                   <p className="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
-                    <span>Choose Cert</span>&nbsp;<span>Images</span>
+                    <span>Choose Cert</span>&nbsp;<span>Image</span>
                   </p>
                   <input
                     onChange={(e) => {
@@ -215,7 +210,7 @@ const DataUpload = () => {
                     }}
                     type="file"
                     name="file"
-                    multiple
+
                   />
                 </div>
 
@@ -226,7 +221,8 @@ const DataUpload = () => {
               <ul id="gallery" className="flex flex-1 flex-wrap -m-1">
                 {imgsSrc.length !== 0 ? (
                   imgsSrc.map((link, key) => (
-                    <Image className="mx-auto w-36" src={link} key={key} alt="preview" />
+                    <Image className="mx-auto w-36" src={link} key={key} alt="preview" height={150}
+                      width={150} />
                   ))
                 ) : (
                   <li
@@ -236,9 +232,9 @@ const DataUpload = () => {
                     <Image
                       className="mx-auto w-32"
                       src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png"
-                        alt="no data"
-                        height={300}
-                        width={300}
+                      alt="no data"
+                      height={300}
+                      width={300}
                     />
                     <span className="text-small text-gray-500">
                       No files selected

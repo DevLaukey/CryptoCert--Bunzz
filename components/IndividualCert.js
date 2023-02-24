@@ -1,9 +1,11 @@
 import React from "react";
 import moment from "moment";
 import Link from "next/link";
+import Image from "next/image";
+
+
 const IndividualCert = ({ data }) => {
 
-  console.log("data", data);
   const name = data?.metadata.name;
   const ipfsHash = data?.ipfs_pin_hash;
   const pinnedDate = data?.pinned_date;
@@ -18,7 +20,7 @@ const IndividualCert = ({ data }) => {
       <div className="my-1 px-1 w-1/2 md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3 ">
         <article className="overflow-hidden rounded-lg shadow-lg dark:bg-gray-600 ">
           <Link href={`/cert/${ipfsHash}`}>
-            <img src={pinataUrl} className="object-contain h-auto w-full " />
+            <Image src={pinataUrl} className="object-contain h-auto w-full " width={300} height={300} alt={name}/>
           </Link>
       
           <header className="flex items-left flex-col justify-between leading-tight p-2 md:p-4">

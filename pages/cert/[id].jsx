@@ -16,7 +16,6 @@ const ID = () => {
   const [show, setShow] = useState(false);
   const [ipfsHash, setIpfsHash] = useState("");
   useEffect(() => {
-    // const ipfsHash = dataCID.replace('ipfs://', '');
     const axiosConfig = {
       headers: {
         "Access-Control-Allow-Credentials": true,
@@ -37,7 +36,6 @@ const ID = () => {
         SetName(response.data.rows[0].metadata.name);
         let ipfsHash = response.data.rows[0].ipfs_pin_hash;
         setIpfsHash(ipfsHash);
-        console.log("metadata", response);
         const cleanHash = ipfsHash?.replace("ipfs://", "");
         const pinataUrl = `https://gateway.pinata.cloud/ipfs/${cleanHash}`;
         setCertLink(pinataUrl);
@@ -80,7 +78,7 @@ const ID = () => {
             <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
               {name}
             </div>
-            <p className="block mt-1 text-lg leading-tight font-medium text-black hover:underline">
+            <p className="block mt-1 text-lg leading-tight font-medium text-black ">
               Pinned on:
               {
                 moment(pinnedDate).format("LL") // February 22, 2023

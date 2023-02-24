@@ -1,5 +1,4 @@
 import React from "react";
-import Web3 from "web3";
 import { useContext, useEffect, useState } from "react";
 import certContext from "../context/cert_context";
 import { supabase } from "../context/supabaseClient";
@@ -50,8 +49,7 @@ const UploadForm = () => {
         clearInput();
       })
       .catch((err) => {
-        console.log(err);
-        toast.error(err.message , {
+        toast.done("Go to HomePage" , {
           position: toast.POSITION.TOP_CENTER,
         })}
       );
