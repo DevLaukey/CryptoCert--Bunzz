@@ -3,18 +3,14 @@ import { supabase } from '../context/supabaseClient'
 import { toast, ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
-import { Router } from 'next/router';
 
 export default function Auth() {
-    const [loading, setLoading] = useState(false)
     const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
 
     const handleLogin = async (e) => {
         e.preventDefault()
 
         try {
-            setLoading(true)
 
             let { data, error } = await supabase.auth.signInWithOtp({
                 email: email,
@@ -30,9 +26,7 @@ export default function Auth() {
             toast.error(error.error_description || error.message, {
                 position: toast.POSITION.TOP_CENTER,
             });
-        } finally {
-            setLoading(false)
-        }
+        } 
     }
 
 
