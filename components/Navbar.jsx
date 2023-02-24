@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import certContext from "../context/cert_context";
 import axios from "axios";
 import Link from "next/link";
+import Image from "next/image";
 
 const Navbar = ({ setURI }) => {
   const [loggedIn, setLoggedIn] = React.useState(false);
