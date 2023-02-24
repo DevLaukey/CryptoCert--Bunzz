@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import certContext from "../context/cert_context";
 import axios from "axios";
 import IndividualCert from "../components/IndividualCert";
+import PlaceHolder from "../components/Placeholder";
 
 export default function Home() {
 
@@ -32,14 +33,12 @@ export default function Home() {
                   })
               }).catch((err) => console.log(err.message));
 
-            console.log(uri);
           }        })
         .catch((err) => console.log(err.message));
     }
     else {
       console.log("web3 or contract not found");
     }
-   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [web3, contract, address]);
 
 
@@ -76,7 +75,12 @@ export default function Home() {
               <IndividualCert data={data} key={key} />
             ))
           ) : (
-            <h2>Loading placeholder</h2>
+              <>
+              
+              <PlaceHolder />
+              <PlaceHolder />
+              <PlaceHolder />
+              </>
           )}
         </div>
       </div>
