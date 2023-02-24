@@ -36,9 +36,9 @@ const Navbar = ({ setURI }) => {
       });
   }
   return (
-    <nav className=" top-0  w-full  bg-gray-200 shadow-xlbg-white z-100  sticky border-gray-400 px-2 sm:px-4 py-0.5 rounded dark:bg-gray-900 ">
+    <nav className=" top-0  w-full  bg-gray-200 shadow-xlbg-white z-100  sticky border-gray-400 px-1 sm:px-1 py-0.5 rounded dark:bg-gray-900 ">
       <div className="container flex flex-col  items-center justify-around mx-auto flex-wrap md:flex-nowrap">
-        <div className="flex w-full items-center m-2 justify-around">
+        <div className="flex w-full items-center m-1 justify-around">
           <a href="https://flowbite.com/" className="flex items-center m-2">
             <img
               src="https://flowbite.com/docs/images/logo.svg"
@@ -50,7 +50,7 @@ const Navbar = ({ setURI }) => {
             </span>
           </a>
 
-          <ul className="flex p-4 mt-4 border border-gray-100 rounded-lg  md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0  ">
+          <ul className="flex p-2 mt-2 border border-gray-100 rounded-lg  md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0  ">
             <li>
               <a
                 href="/"

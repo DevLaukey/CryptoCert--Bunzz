@@ -5,6 +5,8 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Back from "../components/Back";
 import * as XLSX from "xlsx";
+import Link from "next/link";
+import Image from "next/image";
 
 const DataUpload = () => {
   const [imgsSrc, setImgsSrc] = useState([]);
@@ -208,9 +210,9 @@ const DataUpload = () => {
           <p>{ipfsHash && `IPFS: ${ipfsHash}`}</p>
           <h5 className="text-base mb-2 font-semibold text-gray-900 text-center">
             Copy the hash link that will be generated and upload to the
-            <a className="text-blue-400 underline ml-1" href="/uploadform">
+            <Link className="text-blue-400 underline ml-1" href="/uploadform">
               form here
-            </a>
+            </Link>
           </h5>
           <article
             aria-label="File Upload Modal"
@@ -231,43 +233,43 @@ const DataUpload = () => {
                     />
                     <label
                       for="floating_first_name"
-                      class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
                       Student Name{" "}
                     </label>
                   </div>
-                  <div class="relative z-0 w-full mb-6 group">
+                  <div className="relative z-0 w-full mb-6 group">
                     <input
                       type="text"
                       name="floating_last_name"
                       id="floating_last_name"
-                      class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
                       required
                       onChange={(e) => setSchoolName(e.target.value)}
                     />
                     <label
                       for="floating_last_name"
-                      class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
                       School Name
                     </label>
                   </div>
                 </div>
-                <div class="grid  md:gap-6">
-                  <div class="relative z-0 w-full mb-6 group">
+                <div className="grid  md:gap-6">
+                  <div className="relative z-0 w-full mb-6 group">
                     <textarea
                       type="text"
                       name="floating_company"
                       id="floating_company"
-                      class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                      className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                       placeholder=" "
                       required
                       onChange={(e) => setDescription(e.target.value)}
                     />
                     <label
                       for="floating_company"
-                      class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                      className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
                       Description
                     </label>
@@ -309,14 +311,14 @@ const DataUpload = () => {
               <ul id="gallery" className="flex flex-1 flex-wrap -m-1">
                 {imgsSrc.length !== 0 ? (
                   imgsSrc.map((link, key) => (
-                    <img className="mx-auto w-36" src={link} key={key} />
+                    <Image className="mx-auto w-36" src={link} key={key} />
                   ))
                 ) : (
                   <li
                     id="empty"
                     className="h-full w-full text-center flex flex-col items-center justify-center "
                   >
-                    <img
+                    <Image
                       className="mx-auto w-32"
                       src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png"
                       alt="no data"

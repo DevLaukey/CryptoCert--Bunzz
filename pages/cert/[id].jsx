@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import Back from "../../components/Back";
 import moment from "moment";
+import Image from "next/image";
 
 const ID = () => {
   const router = useRouter();
@@ -52,10 +53,12 @@ const ID = () => {
       <div class="max-w-lg mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl grid h-full md:h-80 lg:h-80 place-items-center">
         <div class="md:flex my-3">
           <div class="md:shrink-0 items-center justify-center flex ">
-            <img
+            <Image
+              width={300}
+              height={300}
               class="h-48 w-3/4  object-cover md:h-full md:w-48"
               src={certLink}
-            />
+              alt={name}            />
           </div>
           <div class="p-8">
             <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
