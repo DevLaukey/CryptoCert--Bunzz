@@ -72,11 +72,10 @@ export default function Home() {
               <IndividualCert data={data} key={key} />
             ))
           ) : (
-              <div className="flex flex-wrap">
+              <div className="flex flex-wrap w-full">
               
               <PlaceHolder />
-              <PlaceHolder />
-              <PlaceHolder />
+              
               </div>
           )}
         </div>
