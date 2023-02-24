@@ -6,7 +6,6 @@ import IndividualCert from "../components/IndividualCert";
 
 export default function Home() {
 
-  // const [certificates, setCertificates] = useState([]);
   const web3 = useContext(certContext).web3;
   const contract = useContext(certContext).contract;
   const address = useContext(certContext).address;
@@ -64,40 +63,6 @@ export default function Home() {
   
     
   }
-  // function getCommon(arr1, arr2) {
-  //   var common = [];                   // Array to contain common elements
-  //   for (var i = 0; i < arr1.length; ++i) {
-  //     for (var j = 0; j < arr2.length; ++j) {
-  //       if (arr1[i] == arr2[j]) {       // If element is in both the arrays
-  //         common.push(arr1[i]);        // Push to common array
-  //       }
-  //     }
-  //   }
-
-  //   setCertificate(common);
-
-  // }
-  // function getCertificates(count) {
-  //   for (let i = 0; i < count; i++) {
-  //     contract.methods
-  //       .tokenByIndex(i)
-  //       .call()
-  //       .then((token) => {
-  //         contract.methods
-  //           .tokenURI(token)
-  //           .call().then((data) => {
-  //             console.log(data);
-  //             setURI((prev) => [...prev, data]);
-  //           })
-  //       }).catch((err) => console.log(err.message));
-
-  //     console.log(uri);
-  //   }
-  // }
-
-
-
-
 
   return (
     <div>
@@ -118,44 +83,3 @@ export default function Home() {
   );
 }
 
-// export async function getServerSideProps() {
-//   const certificates = await contract.methods.getApproved().call();
-
-//   console.log("casd" + ( await contract.methods.getApproved().call()));
-
-//   return {
-//     props: { certificates },
-//   };
-// }
-
-// export async function getStaticProps() {
-//   // const web3 = useContext(certContext).web3;
-//   // const contract = useContext(certContext).contract;
-//   // const address = useContext(certContext).address;
-
-//   if (web3 && contract) {
-//     contract.methods
-//       .totalSupply()
-//       .call()
-//       .then((count) => {
-//         getCertificates(count);
-//       })
-//       .catch((err) => console.log(err.message));
-//   }
-//   else {
-//     console.log("web3 or contract not found");
-//   }
-
-//   // Call an external API endpoint to get posts
-//   const res = axios.get()
-//   const certificates = await res.json()
-
-
-//   return {
-//     props: {
-//       certificates,
-//     },
-//   }
-
-  
-// }

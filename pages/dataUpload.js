@@ -21,6 +21,16 @@ const DataUpload = () => {
   const [ipfsHash, setIpfsHash] = useState("");
 
   const onImgChange = (e) => {
+    for (let i = 0; i < e.target.files; i++) {
+      const fileType = file[i]["type"];
+      const validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+      if (!validImageTypes.includes(fileType)) {
+        toast.error("only images accepted", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        setMessage("only images accepted");
+      }
+    }
     setFileImages(e.target.files);
     for (const file of e.target.files) {
       const reader = new FileReader();
@@ -36,95 +46,12 @@ const DataUpload = () => {
     }
   };
 
-  function mapper(images, student_json) {
-    // student_json.sort()
-    images.sort();
-
-    for (let i = 0; i < student_json.length - 1; i++) {
-      student_json[i].imageUrl = images[i];
-    }
-    return student_json;
-  }
-
-  // function cleanData(filename) {
-  //     let students = [];
-
-  //     let cleaned_data = [];
-
-  //     return new Promise((resolve, reject) => {
-  //         fs.createReadStream(filename)
-  //             .pipe(csvParser())
-  //             .on('data', (data) => {
-  //                 students.push(data);
-  //             })
-  //             .on('end', () => {
-  //                 for (let i = 0; i < students.length; i++) {
-  //                     delete students[i][''];
-  //                     if (Object.values(students[i]).every(val => val !== '')) {
-  //                         cleaned_data.push(students[i]);
-  //                     }
-  //                 }
-  //                 resolve(cleaned_data);
-  //             })
-  //             .on('error', (error) => {
-  //                 reject(error);
-  //             });
-  //     });
-  // }
-
-  const onCertUpload = async (e) => {
-    let file = e.target.files[0];
-
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const binaryString = event.target.result;
-      const workbook = XLSX.read(binaryString, { type: "binary" });
-      const sheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[sheetName];
-      setFile(XLSX.utils.sheet_to_json(worksheet));
-    };
-    reader.readAsBinaryString(file);
-  };
-  // if (!file) {
-  //     console.log("no file")
-  // }
-  // const formData = new FormData();
-  // formData.append("file", file)
-
-  // axios('/api/staticdata', {
-  //     method: 'POST',
-  //     body: formData,
-  //     // 👇 Set headers manually for single file upload
-
-  // }).then((res) => {
-  //     console.log(res)
-  // }).catch((err) => { console.log(err) })
-
-  // cleanData(e.target.files[0])
-  //     .then((students) => {
-  //         const student_json = JSON.stringify(students);
-
-  //         const images = fileImages
-  //         function mapper(images, student_json) {
-  //             let sj = JSON.parse(student_json);
-  //             for (let i = 0; i < sj.length; i++) {
-  //                 sj[i].imageUrl = images[i].url
-  //             }
-
-  //             return sj;
-  //         }
-
-  //         console.log(mapper(images, student_json));
-  //     })
-  //     .catch((error) => {
-  //         console.error(error);
-  //     });
+ 
+  
 
   const sendFileToIPFS = async (e) => {
     e.preventDefault();
-    // let data = mapper(imageName, file);
 
-    // const data_obj = Object.assign({}, data);
 
     for (const fileImg of fileImages) {
       if (fileImg) {
@@ -235,7 +162,7 @@ const DataUpload = () => {
                       for="floating_first_name"
                       className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
-                      Student Name{" "}
+                      Student Name
                     </label>
                   </div>
                   <div className="relative z-0 w-full mb-6 group">
@@ -291,19 +218,7 @@ const DataUpload = () => {
                     multiple
                   />
                 </div>
-                {/* <div className="border-dashed border-2 w-full border-gray-400 py-12 flex flex-col justify-center items-center">
-                  <p className="mb-3 font-semibold text-gray-900 flex flex-wrap justify-center">
-                    <span>Choose Images</span>&nbsp;
-                    <span>as an excel file</span>
-                  </p>
-                  <input
-                    onChange={(e) => {
-                      onCertUpload(e);
-                    }}
-                    type="file"
-                    name="file"
-                  />
-                </div> */}
+
               </div>
               <h1 className="pt-8 pb-3 font-semibold sm:text-lg text-gray-900">
                 To Upload
@@ -311,7 +226,7 @@ const DataUpload = () => {
               <ul id="gallery" className="flex flex-1 flex-wrap -m-1">
                 {imgsSrc.length !== 0 ? (
                   imgsSrc.map((link, key) => (
-                    <Image className="mx-auto w-36" src={link} key={key} />
+                    <Image className="mx-auto w-36" src={link} key={key} alt="preview" />
                   ))
                 ) : (
                   <li
@@ -321,7 +236,9 @@ const DataUpload = () => {
                     <Image
                       className="mx-auto w-32"
                       src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png"
-                      alt="no data"
+                        alt="no data"
+                        height={300}
+                        width={300}
                     />
                     <span className="text-small text-gray-500">
                       No files selected
@@ -332,10 +249,7 @@ const DataUpload = () => {
             </section>
           </article>
         </section>
-        {/* <form onSubmit={sendFileToIPFS}>
-                <input type="file" onChange={(e) => setFileImg(e.target.files[0])} required />
-                <button type='submit' >Mint NFT</button>
-            </form> */}
+
         <section className="container mx-auto max-w-screen-lg h-full">
           <article
             aria-label="File Upload Modal"

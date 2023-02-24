@@ -23,7 +23,7 @@ const FileUpload = () => {
 
 
   
-  // try {
+  
   //   const response = await axios.post(
   //     "https://api.pinata.cloud/pinning/pinFileToIPFS",
   //     file,

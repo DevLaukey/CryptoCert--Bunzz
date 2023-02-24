@@ -9,12 +9,13 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Back from "../components/Back";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const UploadForm = () => {
   const router = useRouter()
   const [metadataURI, setMetadataURI] = useState("");
   const [targetAddress, setTargetAddress] = useState("");
-  // "https://gateway.pinata.cloud/ipfs/QmZKvtY8eJcm1QVAzFQTBGQrRdCZ3jJRrRpKmd87cVY7wC/";
+
 
   const web3 = useContext(certContext).web3;
   const contract = useContext(certContext).contract;
@@ -93,12 +94,12 @@ const UploadForm = () => {
                 <div className="form-group mb-6">
                   <label classNameName="text-left">
                     The Metadata Hash is obtained from
-                    <a
+                    <Link
                       href="/dataUpload"
                       className="text-decoration underline ml-2  text-blue-400"
                     >
                       here
-                    </a>
+                    </Link>
                   </label>
                   <input
                     type="text"

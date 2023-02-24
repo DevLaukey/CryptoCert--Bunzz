@@ -8,10 +8,19 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: ['gateway.pinata.cloud', 'githubusercontent.com'],
+        hostname: 'gateway.pinata.cloud',
         pathname: '/ipfs/*',
-
+        
       },
+      {
+
+        protocol: 'https',
+        hostname: 'user-images.githubusercontent.com',
+        pathname: '/**/*',
+        
+          
+      }
+ 
     ],
   },
 
