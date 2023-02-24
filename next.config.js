@@ -10,17 +10,20 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'gateway.pinata.cloud',
         pathname: '/ipfs/*',
-        
+
       },
       {
 
         protocol: 'https',
         hostname: 'user-images.githubusercontent.com',
         pathname: '/**/*',
-        
-          
+      },
+      {
+
+        protocol: 'https',
+        hostname: 'flowbite.com',
+        pathname: '/**/*',
       }
- 
     ],
   },
 

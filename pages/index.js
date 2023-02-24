@@ -39,6 +39,7 @@ export default function Home() {
     else {
       console.log("web3 or contract not found");
     }
+   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [web3, contract, address]);
 
 

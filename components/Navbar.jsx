@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import certContext from "../context/cert_context";
 import axios from "axios";
+import Link from "next/link";
 
 const Navbar = ({ setURI }) => {
   const [loggedIn, setLoggedIn] = React.useState(false);
@@ -39,42 +40,44 @@ const Navbar = ({ setURI }) => {
     <nav className=" top-0  w-full  bg-gray-200 shadow-xlbg-white z-100  sticky border-gray-400 px-1 sm:px-1 py-0.5 rounded dark:bg-gray-900 ">
       <div className="container flex flex-col  items-center justify-around mx-auto flex-wrap md:flex-nowrap">
         <div className="flex w-full items-center m-1 justify-around">
-          <a href="https://flowbite.com/" className="flex items-center m-2">
-            <img
+          <Link href="https://flowbite.com/" className="flex items-center m-2">
+            <Image
               src="https://flowbite.com/docs/images/logo.svg"
               className="h-6 mr-3 sm:h-9"
               alt="Flowbite Logo"
+              width={50}
+              height={50}
             />
             <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
               CRYTPOCERT{" "}
             </span>
-          </a>
+          </Link>
 
           <ul className="flex p-2 mt-2 border border-gray-100 rounded-lg  md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0  ">
             <li>
-              <a
+              <Link
                 href="/"
                 className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white"
                 aria-current="page"
               >
                 Home
-              </a>
+              </Link>
             </li>
             <li>
-              <a
+              <Link
                 href="/instructions"
                 className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
               >
                 Instructions
-              </a>
+              </Link>
             </li>
             <li>
-              <a
+              <Link
                 href="/uploadform"
                 className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
               >
                 Upload Cert
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
