@@ -9,7 +9,6 @@ export default function Home() {
 
   const web3 = useContext(certContext).web3;
   const contract = useContext(certContext).contract;
-  const address = useContext(certContext).address;
   const [uri, setURI] = useState([]);
 
   useEffect(() => { 
@@ -18,7 +17,6 @@ export default function Home() {
         .totalSupply()
         .call()
         .then((count) => {
-          console.log(count)
           for (let i = 1; i < count; i++) {
             contract.methods
               .tokenByIndex(i)
@@ -39,11 +37,10 @@ export default function Home() {
     else {
       console.log("web3 or contract not found");
     }
-  }, [web3, contract, address]);
+  }, [web3, contract]);
 
 
   async function getCertDetails(hashid) {
-    console.log(hashid)
     const axiosConfig = {
       headers: {
         "Access-Control-Allow-Credentials": true,
@@ -75,12 +72,12 @@ export default function Home() {
               <IndividualCert data={data} key={key} />
             ))
           ) : (
-              <>
+              <div className="flex flex-wrap">
               
               <PlaceHolder />
               <PlaceHolder />
               <PlaceHolder />
-              </>
+              </div>
           )}
         </div>
       </div>
